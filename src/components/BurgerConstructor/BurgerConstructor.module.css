@@ -1,0 +1,26 @@
+.scroll_container {
+    max-height: 672px;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.scroll_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll_container::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.scroll_container::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
