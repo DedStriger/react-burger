@@ -12,46 +12,18 @@ export default function BurgerConstructor(){
                     price={1200}
                     thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}/>
                      <div className={constructorStyles.scroll_container}>
-                        <div className={constructorStyles.item}>
+                        {
+                            new Array(6).fill(0).map((_, index) => 
+                                <div className={constructorStyles.item} key={index}>
                             <DragIcon className='mr-2' type='primary'/>
                             <ConstructorElement
                                 isLocked={false}
                                 text="Говяжий метеорит (отбивная)"
                                 price={3000}
                                 thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
-                        </div>
-                        <div className={constructorStyles.item}>
-                            <DragIcon className='mr-2' type='primary'/>
-                            <ConstructorElement
-                                isLocked={false}
-                                text="Говяжий метеорит (отбивная)"
-                                price={3000}
-                                thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
-                        </div>
-                        <div className={constructorStyles.item}>
-                            <DragIcon className='mr-2' type='primary'/>
-                            <ConstructorElement
-                                isLocked={false}
-                                text="Говяжий метеорит (отбивная)"
-                                price={3000}
-                                thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
-                        </div>
-                        <div className={constructorStyles.item}>
-                            <DragIcon className='mr-2' type='primary'/>
-                            <ConstructorElement
-                                isLocked={false}
-                                text="Говяжий метеорит (отбивная)"
-                                price={3000}
-                                thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
-                        </div>
-                        <div className={constructorStyles.item}>
-                            <DragIcon className='mr-2' type='primary'/>
-                            <ConstructorElement
-                                isLocked={false}
-                                text="Говяжий метеорит (отбивная)"
-                                price={3000}
-                                thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
-                        </div>
+                        </div>)
+                        }
+                       
                     </div>
                 <ConstructorElement
                     type='bottom'

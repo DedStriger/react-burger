@@ -5,7 +5,7 @@ export default function AppHeaderButton({Icon, color, title}){
     return(
         <a href='#' className={buttonStyles.container}>
             {Icon}
-            <span className={buttonStyles.title + 'text text_type_main-default'} style={{color: color, marginLeft: 8}}>{title}</span>
+            <span className='text text_type_main-default ml-4' style={{color: color}}>{title}</span>
         </a>
     )
 }
