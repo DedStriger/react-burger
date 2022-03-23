@@ -1,5 +1,6 @@
 .scroll_container {
-    max-height: 672px;
+    max-height: 372px;
+    margin: 16px 0;
     overflow-y: scroll;
     scroll-behavior: smooth;
     display: flex;
@@ -23,4 +24,21 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.element {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.element>div:first-child,
+.element>div:last-child {
+    max-height: 48px;
+    margin-right: 8px;
 }

@@ -1,3 +1,29 @@
+body {
+    min-height: 100vh;
+}
+
+html,
+body {
+    scroll-behavior: smooth;
+}
+
+.App {
+    min-height: 100vh;
+    background: #131316;
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
 html,
 body,
 div,

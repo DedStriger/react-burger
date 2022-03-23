@@ -25,7 +25,7 @@
 }
 
 .scroll_container {
-    max-height: 756px;
+    max-height: 564px;
     overflow-y: scroll;
     scroll-behavior: smooth;
 }

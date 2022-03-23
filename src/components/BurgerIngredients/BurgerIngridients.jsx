@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types';
 import ingridientsStyle from './BurgerIngridients.module.css'
-import data from '../../utils/data';
+import getData from '../../utils/getData';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 export default function BurgerIngridients() {
     const [current, setCurrent] = useState('bun')
-    const dataApp = data()
+    const dataApp = getData()
 
     return (
         <div className={ingridientsStyle.container}>
@@ -18,17 +18,17 @@ export default function BurgerIngridients() {
             <div className={ingridientsStyle.scroll_container}>
                 <Section title='Булки' id='bun'>
                     {dataApp.filter(item => item.type === 'bun').map(item => (
-                        <SectionItem {...item}/>
+                        <SectionItem key={item._id} {...item}/>
                     ))}
                 </Section>
                 <Section title='Соусы' id='sauce'>
                     {dataApp.filter(item => item.type === 'sauce').map(item => (
-                        <SectionItem {...item}/>
+                        <SectionItem key={item._id} {...item}/>
                     ))}
                 </Section>
                 <Section title='Начинка' id='main'>
                     {dataApp.filter(item => item.type === 'main').map(item => (
-                        <SectionItem {...item}/>
+                        <SectionItem key={item._id} {...item}/>
                     ))}
                 </Section>
             </div>   
