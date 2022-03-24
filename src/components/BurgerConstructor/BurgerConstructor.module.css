@@ -1,0 +1,44 @@
+.scroll_container {
+    max-height: 372px;
+    margin: 16px 0;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.scroll_container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scroll_container::-webkit-scrollbar-track {
+    background: #2F2F37;
+}
+
+.scroll_container::-webkit-scrollbar-thumb {
+    background: #8585AD;
+}
+
+.footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+}
+
+.element {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.element>div:first-child,
+.element>div:last-child {
+    max-height: 48px;
+    margin-right: 8px;
+}
