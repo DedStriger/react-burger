@@ -1,8 +1,16 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import React from 'react'
+import React, { memo, useState } from 'react'
+import Modals from '../Modals/Modals'
+import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
 
 export default function BurgerConstructor(){
+    const ingridientsLengt = 6
+    const [state, setState] = useState({showOrder: false, price: 2400 + (3000 * ingridientsLengt)})
+    const MemoOrderModal = memo(() =>
+    (<Modals show={state.showOrder}>
+        {state.showOrder ? <OrderDetails order='034536'/> : <div></div>}
+    </Modals>), [state.showOrder])
     return (
         <div>
         <div className={constructorStyles.element}>
@@ -13,15 +21,15 @@ export default function BurgerConstructor(){
                     thumbnail={'https://code.s3.yandex.net/react/code/bun-02.png'}/>
                      <div className={constructorStyles.scroll_container}>
                         {
-                            new Array(6).fill(0).map((_, index) => 
-                                <div className={constructorStyles.item} key={index}>
-                            <DragIcon className='mr-2' type='primary'/>
-                            <ConstructorElement
-                                isLocked={false}
-                                text="Говяжий метеорит (отбивная)"
-                                price={3000}
-                                thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
-                        </div>)
+                            new Array(ingridientsLengt).fill(0).map((_, index) => 
+                             ( <div className={constructorStyles.item} key={index}>
+                                    <DragIcon className='mr-2' type='primary'/>
+                                    <ConstructorElement
+                                        isLocked={false}
+                                        text="Говяжий метеорит (отбивная)"
+                                        price={3000}
+                                        thumbnail={'https://code.s3.yandex.net/react/code/meat-04.png'}/>
+                                </div>))
                         }
                        
                     </div>
@@ -34,13 +42,14 @@ export default function BurgerConstructor(){
             </div>
              <div className={constructorStyles.footer + ' mt-10'}>
                 <p className='mr-10'>
-                    <span className='text text_type_digits-medium mr-2'>610</span>
+                    <span className='text text_type_digits-medium mr-2'>{state.price}</span>
                     <CurrencyIcon type='primary'/>
                 </p>
-                <Button type="primary" size="medium">
+                <Button type="primary" size="medium" onClick={() => setState({...state, showOrder: true})}>
                     Оформить заказ
                 </Button>
             </div>
+            <MemoOrderModal/>
             </div>
     )
 }
