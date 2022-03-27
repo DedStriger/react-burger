@@ -8,12 +8,12 @@ export default function AppHeader(){
         <header className={headerStyles.header}>
             <div className={headerStyles.container}>
                 <div className={headerStyles.menu}>
-                    <AppHeaderButton title='Конструктор' Icon={<BurgerIcon type='primary'/>} color='#fff' />
-                    <AppHeaderButton title='Лента заказов' Icon={<ListIcon type='secondary'/>} color='#8585AD' />
+                    <AppHeaderButton title='Конструктор' icon={<BurgerIcon type='primary'/>} color='#fff' />
+                    <AppHeaderButton title='Лента заказов' icon={<ListIcon type='secondary'/>} color='#8585AD' />
                 </div>
                 <Logo/>
                 <div className={headerStyles.profile}>
-                        <AppHeaderButton title='Личный кабинет' Icon={<ProfileIcon type='secondary' />} color='#8585AD' />
+                        <AppHeaderButton title='Личный кабинет' icon={<ProfileIcon type='secondary' />} color='#8585AD' />
                 </div>
             </div>
         </header>

@@ -1,25 +1,29 @@
 import React, { memo, useState } from 'react'
 import PropTypes from 'prop-types';
-import ingridientsStyle from './BurgerIngridients.module.css'
-import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import Modals from '../Modals/Modals';
+import ingridientsStyle from './BurgerIngredients.module.css'
+import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
+import Modal from '../Modal/Modal';
 
-export default function BurgerIngridients(props) {
+export default function BurgerIngredients(props) {
     const [state, setState] = useState({data: {}, showDetails: false,  current: 'bun'})
     const dataApp = props.data
-   
     const MemoDetailsModal = memo(() =>
-    (<Modals  title='Детали ингредиента' show={state.showDetails}>
+    (<Modal  title='Детали ингредиента'>
         {state.showDetails ? <IngredientDetails {...state.data} /> : <div></div>}
-    </Modals>), [state.showDetails])
+    </Modal>))
+
+    const handleTabCLick = (type) => {
+        window.location.hash= `#${type}`
+        setState({...state, showDetails: false, current: type});
+    }
 
     return (
         <div className={ingridientsStyle.container}>
             <div className={ingridientsStyle.tabs}>
-                <a href='#bun' onClick={() => setState({...state, showDetails: false, current: 'bun'})} className={state.current === 'bun' ? ingridientsStyle.tab + ' text text_type_main-default ' + ingridientsStyle.tab_active : ingridientsStyle.tab + ' text text_type_main-default' }>Булки</a>
-                <a href='#sauce' onClick={() => setState({...state, showDetails: false, current: 'main'})} className={state.current === 'main' ? ingridientsStyle.tab + ' text text_type_main-default ' + ingridientsStyle.tab_active : ingridientsStyle.tab + ' text text_type_main-default'}>Соусы</a>
-                <a href='#main' onClick={() => setState({...state, showDetails: false, current: 'sauce'})} className={state.current === 'sauce' ? ingridientsStyle.tab + ' text text_type_main-default ' + ingridientsStyle.tab_active : ingridientsStyle.tab + ' text text_type_main-default'}>Начинки</a>
+                <Tab value='bun' onClick={() => handleTabCLick('bun')} active={state.current === 'bun'}>Булки</Tab>
+                <Tab value='sauce' onClick={() => handleTabCLick('sauce')} active={state.current === 'sauce'}>Соусы</Tab>
+                <Tab value='main' onClick={() => handleTabCLick('main')} active={state.current === 'main'}>Начинки</Tab>
             </div>
             <div className={ingridientsStyle.scroll_container}>
                 <Section title='Булки' id='bun'>
@@ -38,14 +42,14 @@ export default function BurgerIngridients(props) {
                     ))}
                 </Section>
             </div>   
-            <MemoDetailsModal/>
+            {state.showDetails && <MemoDetailsModal/>}
         </div>
     )
 }
 
 const Section = (props) => (
     <div className={ingridientsStyle.section} id={props.id}>
-        <p className='text text_type_main-large mb-6'>{props.title}</p>
+        <p className='text text_type_main-medium mb-6'>{props.title}</p>
         <div className={ingridientsStyle.section_container}>
             {props.children}
         </div>
@@ -71,19 +75,34 @@ Section.propTypes = {
 SectionItem.propTypes = {
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    type: PropTypes.string,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    calories: PropTypes.number,
+    type: PropTypes.string.isRequired,
+    proteins: PropTypes.number.isRequired,
+    fat: PropTypes.number.isRequired,
+    carbohydrates: PropTypes.number.isRequired,
+    calories: PropTypes.number.isRequired,
     price: PropTypes.number.isRequired,
-    image: PropTypes.string,
-    image_mobile: PropTypes.string,
+    image: PropTypes.string.isRequired,
+    image_mobile: PropTypes.string.isRequired,
     image_large: PropTypes.string.isRequired,
-    __v: PropTypes.number,
-    onClick: PropTypes.func
+    __v: PropTypes.number.isRequired,
+    onClick: PropTypes.func.isRequired 
 }
 
-BurgerIngridients.propTypes = {
-    data: PropTypes.array.isRequired
+BurgerIngredients.propTypes = {
+    data: PropTypes.arrayOf(PropTypes.shape(
+        {
+            calories: PropTypes.number.isRequired,
+            carbohydrates: PropTypes.number.isRequired,
+            fat: PropTypes.number.isRequired,
+            image: PropTypes.string.isRequired,
+            image_large: PropTypes.string.isRequired,
+            image_mobile: PropTypes.string.isRequired,
+            name: PropTypes.string.isRequired,
+            price: PropTypes.number.isRequired,
+            proteins: PropTypes.number.isRequired,
+            type: PropTypes.string.isRequired,
+            __v: PropTypes.number.isRequired,
+            _id: PropTypes.string.isRequired,
+        }
+    )).isRequired
 }

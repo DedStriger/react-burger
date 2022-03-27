@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import orderStyle from './OrderDetails.module.css'
 import doneGif from '../../images/done.gif'
 import donePng from '../../images/done.png'
@@ -8,7 +8,7 @@ export default function OrderDetails(props){
 
     const [done, setDone] = useState(doneGif)
 
-    setTimeout(() => setDone(donePng), 900)
+    useEffect(() => setTimeout(() => setDone(donePng), 900), [])
 
     return(
         <div className={orderStyle.container}>
@@ -22,5 +22,5 @@ export default function OrderDetails(props){
 }
 
 OrderDetails.propTypes = {
-    order: PropTypes.string
+    order: PropTypes.string.isRequired
 }

@@ -8,15 +8,17 @@ function App() {
   const apiUrl = 'https://norma.nomoreparties.space/api/ingredients'
 
   useEffect(() => {
-    const getData = async (api: string) => await fetch(api)
+    const getData = async () => await fetch(apiUrl)
     .then(
-      (resp) => resp.json()
+      (resp) => { 
+      resp.ok &&
+      resp.json()
       .then((data) => setData(data.data))
-      .catch((err) => console.log(err))
+      }
     )
     .catch((err) => console.log(err));
 
-    getData(apiUrl)
+    getData()
   }, [])
 
   return (

@@ -2,11 +2,12 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import React, { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import modalStyle from './Modals.module.css'
+import modalStyle from './Modal.module.css'
+import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
-export default function Modals(props){
+export default function Modal(props){
     
-const [show, setShow] = useState(props.show)
+const [show, setShow] = useState(true)
 
 useEffect(() => {
     const handleEsc = (e) => {
@@ -20,10 +21,9 @@ useEffect(() => {
     return () => {document.removeEventListener('keydown', handleEsc)}
 }, [show])
 
-const activeClass = `${modalStyle.modal} ${modalStyle.active}`
 
     return createPortal(
-        <div className={show ? activeClass : modalStyle.modal} onClick={() => setShow(false)}>
+        <ModalOverlay active={show} onClick={() => setShow(false)}>
             <div className={modalStyle.card} onClick={(e) => e.stopPropagation()}>
                 <div className={modalStyle.header}>
                     <div className="text text_type_main-large">
@@ -35,12 +35,12 @@ const activeClass = `${modalStyle.modal} ${modalStyle.active}`
                 </div>
                 {props.children}
             </div>
-        </div>, document.getElementById('modals')
+        </ModalOverlay>
+        , document.getElementById('modals')
     )
 }
 
-Modals.propTypes = {
+Modal.propTypes = {
     title: PropTypes.string,
     children: PropTypes.element.isRequired,
-    show: PropTypes.bool
 }
