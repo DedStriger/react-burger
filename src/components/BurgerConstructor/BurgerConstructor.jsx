@@ -1,5 +1,5 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import React, { memo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
@@ -8,10 +8,7 @@ import PropTypes from 'prop-types'
 export default function BurgerConstructor(props){
     const ingredientsLength = 6
     const [state, setState] = useState({showOrder: false, price: 2400 + (props.data[8].price * ingredientsLength)})
-    const MemoOrderModal = memo(() =>
-    (<Modal>
-        {state.showOrder ? <OrderDetails order='034536'/> : <div></div>}
-    </Modal>))
+
     return (
         <div>
         <div className={constructorStyles.element}>
@@ -44,13 +41,16 @@ export default function BurgerConstructor(props){
              <div className={constructorStyles.footer + ' mt-10'}>
                 <p className='mr-10'>
                     <span className='text text_type_digits-medium mr-2'>{state.price}</span>
-                    <CurrencyIcon type='primary'/>
+                    <span className={constructorStyles.icon}><CurrencyIcon type='primary'/></span>
                 </p>
                 <Button type="primary" size="medium" onClick={() => setState({...state, showOrder: true})}>
                     Оформить заказ
                 </Button>
             </div>
-            { state.showOrder && <MemoOrderModal/>}
+            { state.showOrder &&
+                <Modal onClose={() => setState({...state, showOrder: false})}>
+                    <OrderDetails order='034536'/>
+                </Modal> }
             </div>
     )
 }

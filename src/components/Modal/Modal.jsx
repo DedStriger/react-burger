@@ -7,29 +7,28 @@ import ModalOverlay from '../ModalOverlay/ModalOverlay';
 
 export default function Modal(props){
     
-const [show, setShow] = useState(true)
 
 useEffect(() => {
     const handleEsc = (e) => {
         if(e.key === 'Escape'){
-            setShow(false) 
+            props.onClose()
         }
     }
 
-    show ? document.addEventListener('keydown', handleEsc) : document.removeEventListener('keypress', handleEsc)
+   document.addEventListener('keydown', handleEsc)
 
     return () => {document.removeEventListener('keydown', handleEsc)}
-}, [show])
+}, [])
 
 
     return createPortal(
-        <ModalOverlay active={show} onClick={() => setShow(false)}>
+        <ModalOverlay active={true}  onClick={props.onClose}>
             <div className={modalStyle.card} onClick={(e) => e.stopPropagation()}>
                 <div className={modalStyle.header}>
                     <div className="text text_type_main-large">
                         {props.title}
                     </div>
-                    <div className={modalStyle.close} onClick={() => setShow(false)}>
+                    <div className={modalStyle.close} onClick={props.onClose}>
                         <CloseIcon type='primary'/>
                     </div>
                 </div>
@@ -43,4 +42,5 @@ useEffect(() => {
 Modal.propTypes = {
     title: PropTypes.string,
     children: PropTypes.element.isRequired,
+    onClose: PropTypes.func.isRequired
 }

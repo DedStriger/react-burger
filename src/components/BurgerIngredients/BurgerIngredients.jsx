@@ -1,4 +1,4 @@
-import React, { memo, useState } from 'react'
+import React, { memo, useCallback, useState } from 'react'
 import PropTypes from 'prop-types';
 import ingridientsStyle from './BurgerIngredients.module.css'
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,14 +8,14 @@ import Modal from '../Modal/Modal';
 export default function BurgerIngredients(props) {
     const [state, setState] = useState({data: {}, showDetails: false,  current: 'bun'})
     const dataApp = props.data
-    const MemoDetailsModal = memo(() =>
-    (<Modal  title='Детали ингредиента'>
+    const MemoDetailsModal = useCallback(() =>
+    (<Modal  title='Детали ингредиента' onClose={() => setState({...state, showDetails: false})}>
         {state.showDetails ? <IngredientDetails {...state.data} /> : <div></div>}
-    </Modal>))
+    </Modal>), [state.showDetails, state.data])
 
     const handleTabCLick = (type) => {
         window.location.hash= `#${type}`
-        setState({...state, showDetails: false, current: type});
+        setState({...state, current: type});
     }
 
     return (
