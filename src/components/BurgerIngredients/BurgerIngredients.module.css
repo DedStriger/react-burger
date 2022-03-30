@@ -63,3 +63,7 @@
 .item_name {
     text-align: center;
 }
+
+.item {
+    cursor: pointer;
+}
