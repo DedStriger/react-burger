@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { GlobalData } from '../../service/GlobalData';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 function App() {
@@ -20,12 +21,13 @@ function App() {
 
     getData()
   }, [])
-
   return (
+    <GlobalData.Provider value={data}>
     <div className="App">
      <AppHeader/>
-     <Main data={data}/>
+     <Main/>
     </div>
+    </GlobalData.Provider>
   );
 }
 
