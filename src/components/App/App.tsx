@@ -12,22 +12,28 @@ function App() {
     const getData = async () => await fetch(apiUrl)
     .then(
       (resp) => { 
-      resp.ok &&
-      resp.json()
-      .then((data) => setData(data.data))
+        if (resp.ok) {
+          return resp.json();
+      }
+      return Promise.reject(resp.status);
       }
     )
+    .then(data => setData(data.data))
     .catch((err) => console.log(err));
 
+    
+
     getData()
+
   }, [])
+
   return (
-    <GlobalData.Provider value={data}>
     <div className="App">
      <AppHeader/>
-     <Main/>
+     <GlobalData.Provider value={data}>
+      <Main/>
+     </GlobalData.Provider>
     </div>
-    </GlobalData.Provider>
   );
 }
 

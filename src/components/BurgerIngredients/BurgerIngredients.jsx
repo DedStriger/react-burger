@@ -1,18 +1,18 @@
-import React, { memo, useCallback, useState } from 'react'
+import React, { useCallback, useContext, useState } from 'react'
 import PropTypes from 'prop-types';
 import ingridientsStyle from './BurgerIngredients.module.css'
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import { Item } from '../BurgerConstructor/BurgerConstructor';
+import { GlobalData } from '../../service/GlobalData';
 
-export default function BurgerIngredients(props) {
+export default function BurgerIngredients() {
+    const data = useContext(GlobalData)
     const [state, setState] = useState({data: {}, showDetails: false,  current: 'bun'})
-    const dataApp = props.data
     const MemoDetailsModal = useCallback(() =>
     (<Modal  title='Детали ингредиента' onClose={() => setState({...state, showDetails: false})}>
         {state.showDetails ? <IngredientDetails {...state.data} /> : <div></div>}
-    </Modal>), [state.showDetails, state.data])
+    </Modal>), [state])
 
     const handleTabCLick = (type) => {
         window.location.hash= `#${type}`
@@ -28,17 +28,17 @@ export default function BurgerIngredients(props) {
             </div>
             <div className={ingridientsStyle.scroll_container}>
                 <Section title='Булки' id='bun'>
-                    {dataApp.filter(item => item.type === 'bun').map(item => (
+                    {data.filter(item => item.type === 'bun').map(item => (
                         <SectionItem key={item._id} {...item} onClick={() => setState({...state, showDetails: true, data: {...item}})}/>
                     ))}
                 </Section>
                 <Section title='Соусы' id='sauce'>
-                    {dataApp.filter(item => item.type === 'sauce').map(item => (
+                    {data.filter(item => item.type === 'sauce').map(item => (
                         <SectionItem key={item._id} {...item} onClick={() => setState({...state, showDetails: true, data: {...item}})}/>
                     ))}
                 </Section>
                 <Section title='Начинка' id='main'>
-                    {dataApp.filter(item => item.type === 'main').map(item => (
+                    {data.filter(item => item.type === 'main').map(item => (
                         <SectionItem key={item._id} {...item} onClick={() => setState({...state, showDetails: true, data: {...item}})}/>
                     ))}
                 </Section>
@@ -87,8 +87,4 @@ SectionItem.propTypes = {
     image_large: PropTypes.string.isRequired,
     __v: PropTypes.number.isRequired,
     onClick: PropTypes.func.isRequired 
-}
-
-BurgerIngredients.propTypes = {
-    data: PropTypes.arrayOf(Item).isRequired
 }

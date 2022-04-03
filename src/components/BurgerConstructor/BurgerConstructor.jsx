@@ -1,5 +1,5 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import React, {useReducer, useState } from 'react'
+import React, {useReducer} from 'react'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
@@ -22,12 +22,12 @@ export default function BurgerConstructor(props){
             case 'show' : 
                 return {...state, showOrder: true };
             case 'hide' :
-                return {...state, showOrder: false };
+                return {...state, showOrder: false, orderNumber: '' };
             case 'setOrderNumber' : {
                 return {...state, orderNumber: action.payload};
             }
             default: 
-                throw new Error(`Wrong type of action: ${action.type}`);
+                return {...state};
         }
     }
 
@@ -42,7 +42,8 @@ export default function BurgerConstructor(props){
               },
             body: JSON.stringify(order)
         })
-        .then(resp => resp.ok && resp.json().then(data => dispatch({type: 'setOrderNumber', payload: data.order.number})))
+        .then(resp => resp.ok ? resp.json() : Promise.reject(resp.status))
+        .then(data => dispatch({type: 'setOrderNumber', payload: data.order.number}))
         .catch(err => console.log(err))
         dispatch({type: 'show'})
     }

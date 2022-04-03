@@ -14,7 +14,7 @@ export default function Main(){
             <div className={mainStyles.container}>
                 <h1 className='text text_type_main-large mb-5'>Соберите бургер</h1>
                {data.length !== 0 && <div className={mainStyles.content}>
-                    <BurgerIngredients data={data}/>
+                    <BurgerIngredients/>
                     <BurgerConstructor data={constructorData} bun={bun[0]}/>
                 </div>}
             </div>
