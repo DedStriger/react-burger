@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { GlobalData } from '../../service/GlobalData';
 import AppHeader from '../AppHeader/AppHeader';
 import Main from '../Main/Main';
 function App() {
@@ -11,20 +12,27 @@ function App() {
     const getData = async () => await fetch(apiUrl)
     .then(
       (resp) => { 
-      resp.ok &&
-      resp.json()
-      .then((data) => setData(data.data))
+        if (resp.ok) {
+          return resp.json();
+      }
+      return Promise.reject(resp.status);
       }
     )
+    .then(data => setData(data.data))
     .catch((err) => console.log(err));
 
+    
+
     getData()
+
   }, [])
 
   return (
     <div className="App">
      <AppHeader/>
-     <Main data={data}/>
+     <GlobalData.Provider value={data}>
+      <Main/>
+     </GlobalData.Provider>
     </div>
   );
 }

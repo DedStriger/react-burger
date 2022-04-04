@@ -8,7 +8,9 @@ export default function OrderDetails(props){
 
     const [done, setDone] = useState(doneGif)
 
-    useEffect(() => setTimeout(() => setDone(donePng), 900), [])
+    useEffect(() => {
+        setTimeout(() => setDone(donePng), 900)
+    }, [])
 
     return(
         <div className={orderStyle.container}>
