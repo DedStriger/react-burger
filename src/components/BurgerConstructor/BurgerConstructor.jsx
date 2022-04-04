@@ -27,7 +27,7 @@ export default function BurgerConstructor(props){
                 return {...state, orderNumber: action.payload};
             }
             default: 
-                return {...state};
+                return state;
         }
     }
 
