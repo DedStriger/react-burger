@@ -1,23 +1,37 @@
-import React, { useCallback, useContext, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import PropTypes from 'prop-types';
 import ingridientsStyle from './BurgerIngredients.module.css'
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import Modal from '../Modal/Modal';
-import { GlobalData } from '../../service/GlobalData';
+import { useDispatch, useSelector } from 'react-redux';
+import getIngridients from '../../service/actions/getIngridients';
+import { DELETE_MODAL_INGRIDIENTS, GET_ON_MODAL_INGRIDIENTS } from '../../service/actions/constant';
 
 export default function BurgerIngredients() {
-    const data = useContext(GlobalData)
-    const [state, setState] = useState({data: {}, showDetails: false,  current: 'bun'})
+    const dispatch = useDispatch()
+
+    const data = useSelector(store => store.ingridients.burgerIngridients)
+    const modal = useSelector(store => store.modals.activeModal)
+
+    useEffect(() => {
+        dispatch(getIngridients())
+    }, [])
+    const [state, setState] = useState({showDetails: false,  current: 'bun'})
     const MemoDetailsModal = useCallback(() =>
-    (<Modal  title='Детали ингредиента' onClose={() => setState({...state, showDetails: false})}>
-        {state.showDetails ? <IngredientDetails {...state.data} /> : <div></div>}
+    (<Modal  title='Детали ингредиента' onClose={() => {
+        setState({...state, showDetails: false}); 
+        dispatch({type: DELETE_MODAL_INGRIDIENTS})
+        }}>
+        {state.showDetails ? <IngredientDetails {...modal} /> : <div></div>}
     </Modal>), [state])
 
     const handleTabCLick = (type) => {
         window.location.hash= `#${type}`
         setState({...state, current: type});
     }
+
+    
 
     return (
         <div className={ingridientsStyle.container}>
@@ -29,17 +43,17 @@ export default function BurgerIngredients() {
             <div className={ingridientsStyle.scroll_container}>
                 <Section title='Булки' id='bun'>
                     {data.filter(item => item.type === 'bun').map(item => (
-                        <SectionItem key={item._id} {...item} onClick={() => setState({...state, showDetails: true, data: {...item}})}/>
+                        <SectionItem key={item._id} {...item} onClick={() => {setState({...state, showDetails: true}); dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})}}/>
                     ))}
                 </Section>
                 <Section title='Соусы' id='sauce'>
                     {data.filter(item => item.type === 'sauce').map(item => (
-                        <SectionItem key={item._id} {...item} onClick={() => setState({...state, showDetails: true, data: {...item}})}/>
+                        <SectionItem key={item._id} {...item} onClick={() => {setState({...state, showDetails: true}); dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})}}/>
                     ))}
                 </Section>
                 <Section title='Начинка' id='main'>
                     {data.filter(item => item.type === 'main').map(item => (
-                        <SectionItem key={item._id} {...item} onClick={() => setState({...state, showDetails: true, data: {...item}})}/>
+                        <SectionItem key={item._id} {...item} onClick={() => {setState({...state, showDetails: true}); dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})}}/>
                     ))}
                 </Section>
             </div>   
