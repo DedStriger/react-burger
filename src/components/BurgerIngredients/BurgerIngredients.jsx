@@ -7,6 +7,7 @@ import Modal from '../Modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
 import getIngridients from '../../service/actions/getIngridients';
 import { DELETE_MODAL_INGRIDIENTS, GET_ON_MODAL_INGRIDIENTS } from '../../service/actions/constant';
+import { useDrag } from 'react-dnd';
 
 export default function BurgerIngredients() {
     const dispatch = useDispatch()
@@ -16,7 +17,7 @@ export default function BurgerIngredients() {
 
     useEffect(() => {
         dispatch(getIngridients())
-    }, [])
+    }, [dispatch])
     const [state, setState] = useState({showDetails: false,  current: 'bun'})
     const MemoDetailsModal = useCallback(() =>
     (<Modal  title='Детали ингредиента' onClose={() => {
@@ -71,16 +72,26 @@ const Section = (props) => (
     </div>
 )
 
-const SectionItem = (props) => (
-    <div className={ingridientsStyle.item} onClick={props.onClick}>
-        <img src={props.image_large} className={ingridientsStyle.item_image} alt='ingridient'/>
-        <div className={ingridientsStyle.item_price + ' mt-1 mb-1'}>
-            <span className='text text_type_digits-default mr-2'>{props.price}</span>
-            <CurrencyIcon type="primary" />
+const SectionItem = (props) => 
+{   const id = props._id
+    const [, dragRef] = useDrag({
+        type: "icngidient",
+        item: {id},
+        collect: monitor => ({
+            isDrag: monitor.isDragging()
+        })
+    });
+   return (
+        <div className={ingridientsStyle.item} onClick={props.onClick} ref={dragRef}>
+            <img src={props.image_large} className={ingridientsStyle.item_image} alt='ingridient'/>
+            <div className={ingridientsStyle.item_price + ' mt-1 mb-1'}>
+                <span className='text text_type_digits-default mr-2'>{props.price}</span>
+                <CurrencyIcon type="primary" />
+            </div>
+            <p className={"text text_type_main-default " + ingridientsStyle.item_name}>{props.name}</p>
         </div>
-        <p className={"text text_type_main-default " + ingridientsStyle.item_name}>{props.name}</p>
-    </div>
-)
+    )
+ }
 
 Section.propTypes = {
     title: PropTypes.string.isRequired,

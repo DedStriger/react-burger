@@ -1,54 +1,22 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import React, {useReducer} from 'react'
+import React from 'react'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
 import PropTypes from 'prop-types'
+import { useDispatch, useSelector } from 'react-redux'
+import getOrderNumber from '../../service/actions/getOrderNumber'
+import { HIDE_ORDER_MODAL } from '../../service/actions/constant'
 
 export default function BurgerConstructor(props){
-    const initialState = {
-        showOrder: false, 
-        price: (props.bun.price * 2) + props.data.reduce((acc, item) => acc + item.price, 0),
-        orderNumber: ''
-    }
-
+   
+    const dispatch = useDispatch();
     const order = { 
         ingredients: []
     } 
     props.data.forEach(item => order.ingredients.push(item._id))
 
-    const reducer = (state, action) => {
-        switch(action.type){
-            case 'show' : 
-                return {...state, showOrder: true };
-            case 'hide' :
-                return {...state, showOrder: false, orderNumber: '' };
-            case 'setOrderNumber' : {
-                return {...state, orderNumber: action.payload};
-            }
-            default: 
-                return state;
-        }
-    }
-
-
-
-    const handleOrder = async () => {
-        await fetch('https://norma.nomoreparties.space/api/orders', 
-        {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json;charset=utf-8'
-              },
-            body: JSON.stringify(order)
-        })
-        .then(resp => resp.ok ? resp.json() : Promise.reject(resp.status))
-        .then(data => dispatch({type: 'setOrderNumber', payload: data.order.number}))
-        .catch(err => console.log(err))
-        dispatch({type: 'show'})
-    }
-
-    const [state, dispatch] = useReducer(reducer, initialState)
+    const {orderNumber, orderShow} = useSelector(store => store.order)
     return (
         <div>
         <div className={constructorStyles.element}>
@@ -79,16 +47,16 @@ export default function BurgerConstructor(props){
             </div>
              <div className={constructorStyles.footer + ' mt-10'}>
                 <p className='mr-10'>
-                    <span className='text text_type_digits-medium mr-2'>{state.price}</span>
+                    <span className='text text_type_digits-medium mr-2'>{(props.bun.price * 2) + props.data.reduce((acc, item) => acc + item.price, 0)}</span>
                     <span className={constructorStyles.icon}><CurrencyIcon type='primary'/></span>
                 </p>
-                <Button type="primary" size="medium" onClick={handleOrder}>
+                <Button type="primary" size="medium" onClick={() => dispatch(getOrderNumber(order))}>
                     Оформить заказ
                 </Button>
             </div>
-            { state.showOrder &&
-                <Modal onClose={() => dispatch({type: 'hide'})}>
-                    <OrderDetails order={`${state.orderNumber}`}/>
+            { orderShow &&
+                <Modal onClose={() => dispatch({type: HIDE_ORDER_MODAL})}>
+                    <OrderDetails order={`${orderNumber}`}/>
                 </Modal> }
             </div>
     )
