@@ -25,7 +25,7 @@ export default function BurgerIngredients() {
         dispatch({type: DELETE_MODAL_INGRIDIENTS})
         }}>
         {state.showDetails ? <IngredientDetails {...modal} /> : <div></div>}
-    </Modal>), [state])
+    </Modal>), [state, dispatch, modal])
 
     const handleTabCLick = (type) => {
         window.location.hash= `#${type}`
@@ -75,7 +75,7 @@ const Section = (props) => (
 const SectionItem = (props) => 
 {   const id = props._id
     const [, dragRef] = useDrag({
-        type: "icngidient",
+        type: "ingridient",
         item: {id},
         collect: monitor => ({
             isDrag: monitor.isDragging()

@@ -26,7 +26,6 @@ export const burgerReducer = (state = initialState, action) => {
             }
         case GEt_BURGER_INGRIDIENTS_SUCCESS:
             {
-
                 return {
                     ...state,
                     burgerIngridients: action.ingridients,

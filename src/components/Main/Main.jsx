@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useDispatch, useSelector } from 'react-redux'
+import { UPDATE_BUN, UPDATE_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import getIngridients from '../../service/actions/getIngridients'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients'
@@ -15,9 +16,13 @@ export default function Main(){
 
     useEffect(() => {
         dispatch(getIngridients())
-    }, [])
-    const bun =  burgerIngridients.filter(item => item.type === 'bun')
-    const constructorData = burgerIngridients.filter(item => item.type !== 'bun')
+    }, [dispatch])
+
+    
+    const handleDrop = (itemId) => {
+        let item = burgerIngridients.filter(item => item._id === itemId.id)[0] 
+        item.type === 'bun' ? dispatch({type: UPDATE_BUN, item: item}) : dispatch({type: UPDATE_CONSTRUCTOR_LIST, item: item})
+    }
     return(
         <main>
             <div className={mainStyles.container}>
@@ -25,9 +30,9 @@ export default function Main(){
                
                {burgerIngridients.length !== 0 && <div className={mainStyles.content}>
                     <DndProvider backend={HTML5Backend}>
-                    <BurgerIngredients/>
-                    <BurgerConstructor data={constructorData} bun={bun[0]}/>
-                      </DndProvider>
+                        <BurgerIngredients/>
+                        <BurgerConstructor onDropHandler={handleDrop}/>
+                    </DndProvider>
                 </div>}
             </div>
         </main>
