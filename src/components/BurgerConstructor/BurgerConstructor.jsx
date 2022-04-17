@@ -4,7 +4,6 @@ import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
 import PropTypes from 'prop-types'
-import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux'
 import getOrderNumber from '../../service/actions/getOrderNumber'
 import { DELETE_CONSTRUCTOR_ELEMENT, HIDE_ORDER_MODAL, RELOAD_CONSTRUCTOR_LIST } from '../../service/actions/constant'
@@ -61,7 +60,7 @@ export default function BurgerConstructor(props){
                                 item={_} 
                                 index={index} 
                                 dispatch={dispatch} 
-                                key={uuidv4()} 
+                                key={_.uuid} 
                                 moveCard={moveCard}
                               />))
                         }

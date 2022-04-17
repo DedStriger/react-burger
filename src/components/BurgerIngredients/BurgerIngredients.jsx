@@ -92,7 +92,7 @@ const Section = (props) => {
         () =>{
             props.container?.current?.addEventListener('scroll', props.scrollEffect)
             return () => props.container?.current?.removeEventListener('scroll', props.scrollEffect)
-        }, [props.container]
+        }, [props.container, props.scrollEffect]
     )
     return (
     <div className={ingridientsStyle.section} id={props.id}>

@@ -1,5 +1,5 @@
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import modalStyle from './Modal.module.css'
@@ -18,7 +18,7 @@ useEffect(() => {
    document.addEventListener('keydown', handleEsc)
 
     return () => {document.removeEventListener('keydown', handleEsc)}
-}, [])
+}, [props])
 
 
     return createPortal(
