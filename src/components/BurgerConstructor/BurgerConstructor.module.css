@@ -1,5 +1,6 @@
 .scroll_container {
     max-height: 372px;
+    min-height: 80px;
     margin: 16px 0;
     overflow-y: scroll;
     scroll-behavior: smooth;
@@ -20,6 +21,10 @@
     background: #8585AD;
 }
 
+.placeholder {
+    height: 20px;
+}
+
 .footer {
     display: flex;
     align-items: center;
@@ -29,6 +34,7 @@
 .item {
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .element {

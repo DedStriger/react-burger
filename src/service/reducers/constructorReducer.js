@@ -24,6 +24,7 @@ export default function constructorReducer(state = initialState, action) {
         case RELOAD_CONSTRUCTOR_LIST:
             {
                 return {
+                    ...state,
                     constructorList: action.array
                 }
             }

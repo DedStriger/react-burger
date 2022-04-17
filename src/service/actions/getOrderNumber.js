@@ -1,4 +1,5 @@
 import { baseUrl } from "../../utils/apiUrl"
+import checkResponse from "../../utils/checkResponse"
 import { GET_ORDER_NUMBER_ERROR, GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS } from "./constant"
 
 export default function getOrderNumber(order) {
@@ -12,7 +13,7 @@ export default function getOrderNumber(order) {
                 },
                 body: JSON.stringify(order)
             })
-            .then(resp => resp.ok ? resp.json() : Promise.reject(resp.status))
+            .then((resp) => checkResponse(resp))
             .then(data => dispatch({ type: GET_ORDER_NUMBER_SUCCESS, number: data.order.number }))
             .catch(err => dispatch({ type: GET_ORDER_NUMBER_ERROR }))
     }

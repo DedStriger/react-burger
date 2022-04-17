@@ -23,7 +23,7 @@ export default function BurgerConstructor(props){
         } 
         store.con.constructorList.length > 0 && store.con.constructorList.forEach(item => orderList.ingredients.push(item._id))
         return orderList
-    }, [store, bun._id])
+    }, [store, bun])
 
     const price =  (bun.price * 2) + store.con.constructorList.reduce((acc, item) => acc + (item.price), 0)
         const [, dropTarget] = useDrop({
@@ -53,9 +53,10 @@ export default function BurgerConstructor(props){
                     text={`${bun.name} (верх)`}
                     price={bun.price}
                     thumbnail={bun.image_large}/>}
+                    { store.con.constructorList.length > 0 ?
                      <div className={constructorStyles.scroll_container}>
                         {
-                            store.con.constructorList.length > 0 && store.con.constructorList.map((_, index) => 
+                             store.con.constructorList.map((_, index) => 
                              (<IngridientItem 
                                 item={_} 
                                 index={index} 
@@ -65,7 +66,8 @@ export default function BurgerConstructor(props){
                               />))
                         }
                        
-                    </div>
+                    </div> : <div className={constructorStyles.placeholder}></div>
+                      }
                     {bun && <ConstructorElement type="bottom"
                     isLocked={true}
                     text={`${bun.name} (низ)`}
