@@ -66,4 +66,17 @@
 
 .item {
     cursor: pointer;
+    position: relative;
+}
+
+.count {
+    height: 32px;
+    width: 32px;
+    border-radius: 100%;
+    background: #4C4CFF;
+    text-align: center;
+    line-height: 32px;
+    position: absolute;
+    top: 0px;
+    right: 0px;
 }

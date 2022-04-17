@@ -4,17 +4,19 @@ import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
 import PropTypes from 'prop-types'
+import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux'
 import getOrderNumber from '../../service/actions/getOrderNumber'
 import { DELETE_CONSTRUCTOR_ELEMENT, HIDE_ORDER_MODAL, RELOAD_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import { useDrop, useDrag } from 'react-dnd'
+import { ingridientType } from '../../utils/types'
 
 export default function BurgerConstructor(props){
    
     const dispatch = useDispatch();
 
     const store = useSelector(store => store)
-    const bun = store.con.bun ? store.con.bun : store.ingridients.burgerIngridients.filter(item => item.type === 'bun')[0]
+    const bun = store.con.bun && store.con.bun
     const order = useMemo(() => {
         let orderList = { 
             ingredients: [bun._id]
@@ -43,27 +45,36 @@ export default function BurgerConstructor(props){
     return (
         <div>
         <div className={constructorStyles.element} ref={dropTarget}>
-                <ConstructorElement type="top"
+        {!bun && store.con.constructorList.length === 0 && 
+          <p className={`${constructorStyles.voidText} text text_type_main-medium`}>Пожалуйста, перенесите сюда булку и ингредиенты для создания заказа</p>
+        }
+        {bun && <ConstructorElement type="top"
                     isLocked={true}
                     text={`${bun.name} (верх)`}
                     price={bun.price}
-                    thumbnail={bun.image_large}/>
+                    thumbnail={bun.image_large}/>}
                      <div className={constructorStyles.scroll_container}>
                         {
                             store.con.constructorList.length > 0 && store.con.constructorList.map((_, index) => 
-                             (<IngridientItem item={_} index={index} dispatch={dispatch} key={_._id + index} moveCard={moveCard} />))
+                             (<IngridientItem 
+                                item={_} 
+                                index={index} 
+                                dispatch={dispatch} 
+                                key={uuidv4()} 
+                                moveCard={moveCard}
+                              />))
                         }
                        
                     </div>
-                    <ConstructorElement type="bottom"
+                    {bun && <ConstructorElement type="bottom"
                     isLocked={true}
                     text={`${bun.name} (низ)`}
                     price={bun.price}
-                    thumbnail={bun.image_large}/>
+                    thumbnail={bun.image_large}/>}
             </div>
              <div className={constructorStyles.footer + ' mt-10'}>
                 <p className='mr-10'>
-                    <span className='text text_type_digits-medium mr-2'>{price}</span>
+                    <span className='text text_type_digits-medium mr-2'>{price ? price: 0}</span>
                     <span className={constructorStyles.icon}><CurrencyIcon type='primary'/></span>
                 </p>
                 <Button type="primary" size="medium" onClick={() => dispatch(getOrderNumber(order))}>
@@ -139,20 +150,7 @@ const IngridientItem = ({item, index, dispatch, moveCard}) => {
     )
 }
 
-export const Item = PropTypes.shape(  {
-    calories: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    image: PropTypes.string.isRequired,
-    image_large: PropTypes.string.isRequired,
-    image_mobile: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    proteins: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    __v: PropTypes.number.isRequired,
-    _id: PropTypes.string.isRequired,
-})
+export const Item = PropTypes.shape(ingridientType)
 
 BurgerConstructor.propTypes = {
     onDropHandler: PropTypes.func.isRequired

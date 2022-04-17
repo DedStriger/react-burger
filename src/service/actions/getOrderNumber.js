@@ -1,7 +1,8 @@
+import { baseUrl } from "../../utils/apiUrl"
 import { GET_ORDER_NUMBER_ERROR, GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS } from "./constant"
 
 export default function getOrderNumber(order) {
-    const apiUrl = 'https://norma.nomoreparties.space/api/orders'
+    const apiUrl = `${baseUrl}/orders`
     return function(dispatch) {
         dispatch({ type: GET_ORDER_NUMBER_REQUEST })
         fetch(apiUrl, {
