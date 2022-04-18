@@ -7,6 +7,7 @@ import getIngridients from '../../service/actions/getIngridients'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients'
 import mainStyles from './Main.module.css'
+import { v1 as uuidv1 } from 'uuid';
 
 export default function Main(){
 
@@ -17,11 +18,10 @@ export default function Main(){
     useEffect(() => {
         dispatch(getIngridients())
     }, [dispatch])
-
     
     const handleDrop = (itemId) => {
         let item = burgerIngridients.filter(item => item._id === itemId.id)[0] 
-        item.type === 'bun' ? dispatch({type: UPDATE_BUN, item: item}) : dispatch({type: UPDATE_CONSTRUCTOR_LIST, item: item})
+        item.type === 'bun' ? dispatch({type: UPDATE_BUN, item: item}) : dispatch({type: UPDATE_CONSTRUCTOR_LIST, item: item, uuid: uuidv1()})
     }
     return(
         <main>

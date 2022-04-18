@@ -9,7 +9,6 @@ import getOrderNumber from '../../service/actions/getOrderNumber'
 import { DELETE_CONSTRUCTOR_ELEMENT, HIDE_ORDER_MODAL, RELOAD_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import { useDrop, useDrag } from 'react-dnd'
 import { ingridientType } from '../../utils/types'
-import { v4 as uuidv4 } from 'uuid';
 
 export default function BurgerConstructor(props){
    
@@ -56,15 +55,13 @@ export default function BurgerConstructor(props){
                     { store.con.constructorList.length > 0 ?
                      <div className={constructorStyles.scroll_container}>
                         {
-                             store.con.constructorList.map((_, index) => {
-                               _.uuid = uuidv4()
-                             return (<IngridientItem 
+                             store.con.constructorList.map((_, index) => (<IngridientItem 
                                 item={_} 
                                 index={index} 
                                 dispatch={dispatch} 
-                                key={_.uuid} 
+                                key={store.con.uuids[index]} 
                                 moveCard={moveCard}
-                              />)})
+                              />))
                         }
                        
                     </div> : <div className={constructorStyles.placeholder}></div>

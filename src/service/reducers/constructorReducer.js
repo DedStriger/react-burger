@@ -2,7 +2,8 @@ import { DELETE_CONSTRUCTOR_ELEMENT, UPDATE_BUN, UPDATE_CONSTRUCTOR_LIST, RELOAD
 
 const initialState = {
     constructorList: [],
-    bun: false
+    bun: false,
+    uuids: []
 }
 
 export default function constructorReducer(state = initialState, action) {
@@ -11,7 +12,9 @@ export default function constructorReducer(state = initialState, action) {
             {
                 return {
                     ...state,
-                    constructorList: [...state.constructorList, action.item]
+                    constructorList: [...state.constructorList, action.item],
+                    uuids: [...state.uuids, action.uuid]
+
                 }
             }
         case DELETE_CONSTRUCTOR_ELEMENT:
