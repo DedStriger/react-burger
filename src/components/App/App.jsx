@@ -63,7 +63,7 @@ function App() {
           <IngredientPage/>
         </Route>
       </Switch>
-      {background && (
+      {background && ( 
           <Route
             path={INGRIDIENT_URL+":id"}
             children={
