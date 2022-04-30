@@ -17,13 +17,14 @@ function App() {
   const location = useLocation()
   const history = useHistory()
   const modal = useSelector(store => store.modals.activeModal)
+  const logout = useSelector(store => store.user.logoutSuccess)
   let background = location.state && location.state.background;
   const onClose = useCallback(() => {
     history.goBack({state: {background: location}})
     dispatch({type: DELETE_MODAL_INGRIDIENTS})
   }, [history, dispatch, location])
   const init = async () => {
-    await checkUser(dispatch)
+   !logout && await checkUser(dispatch)
     setIsLoad(true)
   }
 

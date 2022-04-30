@@ -25,11 +25,10 @@ export default function signOut(history) {
             })
             .then(res => checkResponse(res))
             .then(data => {
-                console.log(data)
-                dispatch({ type: LOGOUT_USER_SUCCESS, check: data.success })
-                history.replace({ pathname: LOGIN_URL })
                 deleteCookie('refToken')
                 deleteCookie('authToken')
+                dispatch({ type: LOGOUT_USER_SUCCESS, check: data.success })
+                history.replace({ pathname: LOGIN_URL })
             })
             .catch(() => dispatch({ type: LOGOUT_USER_ERROR }))
     }
