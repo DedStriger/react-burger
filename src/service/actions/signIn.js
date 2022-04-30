@@ -1,0 +1,42 @@
+import { baseUrl } from "../../utils/apiUrl"
+import checkResponse from "../../utils/checkResponse";
+import { setCookie } from "../../utils/setCookie";
+import { PROFILE_URL } from "../../utils/urls";
+import { SET_USER_ERROR, SET_USER_REQUEST, SET_USER_SUCCESS } from "./constant";
+
+export default function signIn(form, history) {
+    const apiUrl = baseUrl + '/auth/login'
+    return async function(dispatch) {
+        dispatch({ type: SET_USER_REQUEST })
+        await fetch(apiUrl, {
+                method: 'POST',
+                mode: 'cors',
+                cache: 'no-cache',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                redirect: 'follow',
+                referrerPolicy: 'no-referrer',
+                body: JSON.stringify({
+                    "email": form.email,
+                    "password": form.pass
+                })
+            })
+            .then(
+                (res) => checkResponse(res)
+
+            ).then(data => {
+                let authToken = data.accessToken
+                let refToken = data.refreshToken
+                if (authToken && refToken) {
+                    setCookie('authToken', authToken);
+                    setCookie('refToken', refToken);
+                    console.log(authToken, refToken, 'authToken')
+                }
+                dispatch({ type: SET_USER_SUCCESS, email: data.user.email, name: data.user.name });
+                history.replace({ pathname: PROFILE_URL })
+            })
+            .catch(() => dispatch({ type: SET_USER_ERROR }))
+    }
+}

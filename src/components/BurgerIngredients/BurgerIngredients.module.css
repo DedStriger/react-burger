@@ -67,6 +67,8 @@
 .item {
     cursor: pointer;
     position: relative;
+    text-decoration: none;
+    color: #fff;
 }
 
 .count {

@@ -77,7 +77,7 @@ export default function BurgerConstructor(props){
                     <span className='text text_type_digits-medium mr-2'>{price ? price: 0}</span>
                     <span className={constructorStyles.icon}><CurrencyIcon type='primary'/></span>
                 </p>
-                <Button type="primary" size="medium" onClick={() => dispatch(getOrderNumber(order))}>
+                <Button disabled={!store.user.auth} type="primary" size="medium" onClick={() => dispatch(getOrderNumber(order))}>
                     Оформить заказ
                 </Button>
             </div>
