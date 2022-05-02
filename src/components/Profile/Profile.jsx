@@ -1,7 +1,7 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import refreshUser from "../../utils/refreshUser";
+import refreshUser from "../../service/actions/refreshUser";
 import style from './Profile.module.css'
 import ProfileContainer from "./ProfileContainer";
 
@@ -41,7 +41,7 @@ export default function Profile(){
                         onChange={(e) => setValue({...value, pass: e.target.value})}
                     />
                 </div>
-                <Button type="primary" onClick={() => refreshUser(disaptch, value)} size="medium">
+                <Button type="primary" onClick={() => disaptch(refreshUser(value))} size="medium">
                     Сохранить
                 </Button>
         </ProfileContainer>

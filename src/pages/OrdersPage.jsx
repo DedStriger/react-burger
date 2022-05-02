@@ -1,12 +1,11 @@
-import React from 'react'
-import AppHeader from '../components/AppHeader/AppHeader'
-import ProfileOrder from '../components/Profile/ProfileOrder'
+import React from "react";
+import ProfileContainer from "../components/Profile/ProfileContainer";
+import ProfileOrder from "../components/Profile/ProfileOrder";
 
-export default function OrdersPage(){
+export default function OrdersPage() {
     return(
-        <>
-            <AppHeader/>
+        <ProfileContainer>
             <ProfileOrder/>
-        </>
+        </ProfileContainer>
     )
 }

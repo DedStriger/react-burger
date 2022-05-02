@@ -11,10 +11,13 @@ export default function Forgot(){
     const history = useHistory()
     const refreshState = useSelector(store => store.refresh)
     const dispatch = useDispatch()
-    const reset = useCallback(() => dispatch(refresh(email, history)), [dispatch, history, email])
+    const reset = useCallback((e) => {
+        e.preventDefault()
+        dispatch(refresh(email, history))}, [dispatch, history, email])
+        
     return(
         <div className={style.container}> 
-            <div className={style.card}> 
+            <form className={style.card} onSubmit={reset}> 
                 <p className='pb-6 text text_type_main-medium'>Восстановление пароля</p>
                 <div className={`pb-6 ${style.input}`}>
                     <Input 
@@ -25,11 +28,11 @@ export default function Forgot(){
                         onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
-                <Button type="primary" disabled={refreshState.request || refreshState.error} size="medium" onClick={reset} >
+                <Button type="primary" disabled={refreshState.request || refreshState.error} size="medium" >
                     {refreshState.request ? 'Запрос...' : refreshState.error ? 'email не найден' : 'Востановить'}
                 </Button>
                 <p className='text text_type_main-default mt-20'>Вспомнили пароль? <Link to={{pathname: LOGIN_URL}}>Войти</Link></p>
-            </div>
+            </form>
         </div>
     )
 }

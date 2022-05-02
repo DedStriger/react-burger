@@ -10,10 +10,12 @@ export default function Reset(){
     const [value, setValue] = useState({code: '', pass: ''})
     const refresh = useSelector(store => store.refresh)
     const dispatch = useDispatch()
-    const reset = useCallback(() => dispatch(resetPass(value)),[value, dispatch])
+    const reset = useCallback((e) => {
+        e.preventDefault()
+        dispatch(resetPass(value))},[value, dispatch])
     return(
         <div className={style.container}> 
-            <div className={style.card}> 
+            <form className={style.card} onSubmit={reset}> 
                 <p className='pb-6 text text_type_main-medium'>{refresh.passResetSuccess ? 'Успех!' : 'Восстановить'}</p>
                 <div className={`pb-6 ${style.input}`}>
                     <Input 
@@ -37,7 +39,7 @@ export default function Reset(){
                     {refresh.passResetRequest ? 'Запрос...' : 'Сохранить'}
                 </Button>
                 <p className='text text_type_main-default mt-20'>Вспомнили пароль? <Link to={{pathname: LOGIN_URL}}>Войти</Link></p>
-            </div>
+            </form>
         </div>
     )
 }

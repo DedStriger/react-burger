@@ -10,10 +10,12 @@ export default function Registration(){
     const [value, setValue] = useState({email: '', pass: '', name: ''});
     const dispatch = useDispatch();
     const history = useHistory();
-    const onRegistrationPress = useCallback(() => {dispatch(setUser(value, () => history.replace({pathname: LOGIN_URL})))}, [value, dispatch, history])
+    const onRegistrationPress = useCallback((e) => {
+        e.prefentDefault()
+        dispatch(setUser(value, () => history.replace({pathname: LOGIN_URL})))}, [value, dispatch, history])
     return(
         <div className={style.container}> 
-            <div className={style.card}> 
+            <form className={style.card} onSubmit={onRegistrationPress}> 
                 <p className='pb-6 text text_type_main-medium'>Регистрация</p>
                 <div className={`pb-6 ${style.input}`}>
                     <Input 
@@ -42,11 +44,11 @@ export default function Registration(){
                         onChange={(e) => setValue({...value, pass: e.target.value})}
                     />
                 </div>
-                <Button type="primary" onClick={onRegistrationPress} size="medium">
+                <Button type="primary" size="medium">
                 Зарегистрироваться
                 </Button>
                 <p className='text text_type_main-default mt-20'>Вспомнили пароль? <Link to={{pathname: LOGIN_URL}}>Войти</Link></p>
-            </div>
+            </form>
         </div>
     )
 }

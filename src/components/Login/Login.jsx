@@ -10,13 +10,15 @@ export default function Login(){
     const [value, setValue] = useState({email: '', pass: ''})
     const dispatch = useDispatch();
     const history = useHistory()
-    const login = useCallback(() => {
+    const login = useCallback((e) => {
+        e.preventDefault()
+        console.log(value)
         dispatch(signIn(value, history))
     }, [dispatch, history, value])
 
     return(
         <div className={style.container}> 
-            <div className={style.card}> 
+            <form className={style.card} onSubmit={login}> 
                 <p className='pb-6 text text_type_main-medium'>Вход</p>
                 <div className={`pb-6 ${style.input}`}>
                     <Input 
@@ -36,12 +38,12 @@ export default function Login(){
                         onChange={(e) => setValue({...value, pass: e.target.value})}
                     />
                 </div>
-                <Button type="primary" size="medium" onClick={login}>
+                <Button type="primary" size="medium">
                     Войти
                 </Button>
                 <p className='text text_type_main-default mt-20'>Вы — новый пользователь? <Link to={{pathname: REGISTRATION_URL}}>Зарегистрироваться</Link></p>
                 <p className='text text_type_main-default mt-4'>Забыли пароль? <Link to={{pathname: FORGOT_URL}}>Восстановить пароль</Link></p>
-            </div>
+            </form>
         </div>
     )
 }
