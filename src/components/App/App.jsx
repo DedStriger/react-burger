@@ -7,15 +7,15 @@ import checkUser from '../../service/actions/checkUSer';
 import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import { DELETE_MODAL_INGRIDIENTS, GET_ON_MODAL_INGRIDIENTS } from '../../service/actions/constant';
+import { DELETE_MODAL_INGRIDIENTS } from '../../service/actions/constant';
 import getIngridients from '../../service/actions/getIngridients';
 import AppHeader from '../AppHeader/AppHeader';
-import Main from '../Main/Main';
-import Login from '../Login/Login';
-import Registration from '../Registration/Registration';
-import Forgot from '../Forgot/Forgot';
-import Reset from '../Reset/Reset';
-import Profile from '../Profile/Profile';
+import Forgot from '../../pages/Forgot/Forgot';
+import Profile from '../../pages/Profile/Profile';
+import Main from '../../pages/Main/Main';
+import Registration from '../../pages/Registration/Registration';
+import Reset from '../../pages/Reset/Reset';
+import Login from '../../pages/Login/Login';
 function App() {
   const ModalSwitch = () => {
   const dispatch = useDispatch()
@@ -26,11 +26,19 @@ function App() {
   const ingredients = useSelector(store => store.ingridients.burgerIngridients)
   const logout = useSelector(store => store.user.logoutSuccess)
   let background = location.state && location.state.background;
+  let modalItem = null
+
+  if(background && localStorage.getItem('id') !== null){
+    let id = localStorage.getItem('id')
+    modalItem = ingredients.filter(_ => _._id === id)[0]
+  } else {
+    modalItem = modal
+  }
   const onClose = useCallback(() => {
     localStorage.removeItem('id')
     history.replace({pathname: MAIN_URL})
     dispatch({type: DELETE_MODAL_INGRIDIENTS})
-  }, [history, dispatch, location])
+  }, [history, dispatch])
   const init = async () => {
    !logout && await dispatch(checkUser())
     setIsLoad(true)
@@ -73,22 +81,16 @@ function App() {
           <IngredientPage/>
         </Route>
       </Switch>
-      {background && Object.keys(modal).length !== 0 ? ( 
+      {background && ( 
           <Route
             path={INGRIDIENT_URL+":id"}
             children={
-               <Modal onClose={onClose}>
-               <IngredientDetails {...modal}/>
+
+              <Modal onClose={onClose}>
+               <IngredientDetails {...modalItem}/>
               </Modal>}
             
-          />
-        ) : (
-          (() => {
-            let id = localStorage.getItem('id')
-                  let item = ingredients.filter(_ => _._id === id)[0]
-                  dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})
-          })()
-        )}
+          />)}
     </div>
   );
   }

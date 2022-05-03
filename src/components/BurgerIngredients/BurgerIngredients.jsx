@@ -2,15 +2,13 @@ import React, {useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import ingridientsStyle from './BurgerIngredients.module.css'
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
-import {GET_ON_MODAL_INGRIDIENTS } from '../../service/actions/constant';
+import {useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import {ingridientType} from '../../utils/types'
 import { Link, useLocation } from 'react-router-dom';
 import { INGRIDIENT_URL } from '../../utils/urls';
 
 export default function BurgerIngredients() {
-    const dispatch = useDispatch()
 
     const data = useSelector(store => store.ingridients.burgerIngridients)
     const order = useSelector(store => store.con.constructorList)
@@ -23,8 +21,7 @@ export default function BurgerIngredients() {
     }
 
     const handleIngridientClick = (item) => {setState({...state, showDetails: true}); 
-    localStorage.setItem('id', item._id)
-    dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})}
+    localStorage.setItem('id', item._id)}
 
     const ref = useRef()
 
