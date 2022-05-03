@@ -26,15 +26,15 @@ const Item = (props) =>
 
 
 Item.propTypes = {
-    title: PropTypes.string.isRequired,
-    number: PropTypes.number.isRequired
+    title: PropTypes.string,
+    number: PropTypes.number
 }
 
 IngredientDetails.propTypes = {
-    name: PropTypes.string.isRequired,
-    proteins: PropTypes.number.isRequired,
-    fat: PropTypes.number.isRequired,
-    carbohydrates: PropTypes.number.isRequired,
-    calories: PropTypes.number.isRequired,
-    image_large: PropTypes.string.isRequired,
+    name: PropTypes.string,
+    proteins: PropTypes.number,
+    fat: PropTypes.number,
+    carbohydrates: PropTypes.number,
+    calories: PropTypes.number,
+    image_large: PropTypes.string,
 }

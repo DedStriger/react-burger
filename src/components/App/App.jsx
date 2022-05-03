@@ -44,7 +44,6 @@ function App() {
   if(!isLoad){
     return null
   }
-
   return (
     <div className="App">
       <AppHeader/>
@@ -74,22 +73,21 @@ function App() {
           <IngredientPage/>
         </Route>
       </Switch>
-      {background && ( 
+      {background && Object.keys(modal).length !== 0 ? ( 
           <Route
             path={INGRIDIENT_URL+":id"}
             children={
-              () => {
-                if(Object.keys(modal).length === 0){
-                  let id = localStorage.getItem('id')
-                  let item = ingredients.filter(_ => _._id === id)[0]
-                  dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})
-                }
-                return(
-              <Modal onClose={onClose}>
-                <IngredientDetails {...modal}/>
-              </Modal>)}}
+               <Modal onClose={onClose}>
+               <IngredientDetails {...modal}/>
+              </Modal>}
             
           />
+        ) : (
+          (() => {
+            let id = localStorage.getItem('id')
+                  let item = ingredients.filter(_ => _._id === id)[0]
+                  dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})
+          })()
         )}
     </div>
   );
