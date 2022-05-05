@@ -1,28 +1,27 @@
-import React, { useEffect } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useDispatch, useSelector } from 'react-redux'
 import { UPDATE_BUN, UPDATE_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import getIngridients from '../../service/actions/getIngridients'
-import BurgerConstructor from '../BurgerConstructor/BurgerConstructor'
-import BurgerIngredients from '../BurgerIngredients/BurgerIngredients'
 import mainStyles from './Main.module.css'
 import { v1 as uuidv1 } from 'uuid';
+import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients'
+import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor'
 
 export default function Main(){
 
     const dispatch = useDispatch()
 
     const {burgerIngridients} = useSelector(store => store.ingridients)
-
     useEffect(() => {
         dispatch(getIngridients())
     }, [dispatch])
     
-    const handleDrop = (itemId) => {
+    const handleDrop = useCallback((itemId) => {
         let item = burgerIngridients.filter(item => item._id === itemId.id)[0] 
         item.type === 'bun' ? dispatch({type: UPDATE_BUN, item: item}) : dispatch({type: UPDATE_CONSTRUCTOR_LIST, item: item, uuid: uuidv1()})
-    }
+    }, [dispatch, burgerIngridients])
     return(
         <main>
             <div className={mainStyles.container}>

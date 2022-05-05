@@ -9,11 +9,13 @@ import getOrderNumber from '../../service/actions/getOrderNumber'
 import { DELETE_CONSTRUCTOR_ELEMENT, HIDE_ORDER_MODAL, RELOAD_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import { useDrop, useDrag } from 'react-dnd'
 import { ingridientType } from '../../utils/types'
+import { useHistory } from 'react-router-dom'
+import { LOGIN_URL } from '../../utils/urls'
 
 export default function BurgerConstructor(props){
    
     const dispatch = useDispatch();
-
+    const history = useHistory()
     const store = useSelector(store => store)
     const bun = store.con.bun && store.con.bun
     const order = useMemo(() => {
@@ -77,7 +79,7 @@ export default function BurgerConstructor(props){
                     <span className='text text_type_digits-medium mr-2'>{price ? price: 0}</span>
                     <span className={constructorStyles.icon}><CurrencyIcon type='primary'/></span>
                 </p>
-                <Button type="primary" size="medium" onClick={() => dispatch(getOrderNumber(order))}>
+                <Button type="primary" size="medium" onClick={() => store.user.auth ? dispatch(getOrderNumber(order)) : history.replace({pathname: LOGIN_URL})}>
                     Оформить заказ
                 </Button>
             </div>

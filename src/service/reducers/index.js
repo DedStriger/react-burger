@@ -3,10 +3,14 @@ import { burgerReducer } from "./burgerReducer";
 import constructorReducer from "./constructorReducer";
 import modalReducer from "./modalReducer";
 import { orderReducer } from "./orderReducer";
+import refreshReduser from "./refreshReduser";
+import userReducer from "./userReducer";
 
 export const rootReducer = combineReducers({
     ingridients: burgerReducer,
     modals: modalReducer,
     order: orderReducer,
-    con: constructorReducer
+    con: constructorReducer,
+    user: userReducer,
+    refresh: refreshReduser
 })

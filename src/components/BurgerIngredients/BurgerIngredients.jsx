@@ -1,34 +1,19 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, {useEffect, useRef, useState } from 'react'
 import PropTypes from 'prop-types';
 import ingridientsStyle from './BurgerIngredients.module.css'
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import IngredientDetails from '../IngredientDetails/IngredientDetails';
-import Modal from '../Modal/Modal';
-import { useDispatch, useSelector } from 'react-redux';
-import getIngridients from '../../service/actions/getIngridients';
-import { DELETE_MODAL_INGRIDIENTS, GET_ON_MODAL_INGRIDIENTS } from '../../service/actions/constant';
+import {useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import {ingridientType} from '../../utils/types'
+import { Link, useLocation } from 'react-router-dom';
+import { INGRIDIENT_URL } from '../../utils/urls';
 
 export default function BurgerIngredients() {
-    const dispatch = useDispatch()
 
     const data = useSelector(store => store.ingridients.burgerIngridients)
-    const modal = useSelector(store => store.modals.activeModal)
     const order = useSelector(store => store.con.constructorList)
     const bun = useSelector(store => store.con.bun)
-
-    useEffect(() => {
-        dispatch(getIngridients())
-    }, [dispatch])
     const [state, setState] = useState({showDetails: false,  current: 'bun'})
-    const MemoDetailsModal = useCallback(() =>
-    (<Modal  title='Детали ингредиента' onClose={() => {
-        setState({...state, showDetails: false}); 
-        dispatch({type: DELETE_MODAL_INGRIDIENTS})
-        }}>
-        {state.showDetails ? <IngredientDetails {...modal} /> : <div></div>}
-    </Modal>), [state, dispatch, modal])
 
     const handleTabCLick = (type) => {
         window.location.hash= `#${type}`
@@ -36,7 +21,7 @@ export default function BurgerIngredients() {
     }
 
     const handleIngridientClick = (item) => {setState({...state, showDetails: true}); 
-    dispatch({type: GET_ON_MODAL_INGRIDIENTS, item: item})}
+    localStorage.setItem('id', item._id)}
 
     const ref = useRef()
 
@@ -82,7 +67,6 @@ export default function BurgerIngredients() {
                     ))}
                 </Section>
             </div>   
-            {state.showDetails && <MemoDetailsModal/>}
         </div>
     )
 }
@@ -105,6 +89,7 @@ const Section = (props) => {
 
 const SectionItem = (props) => 
 {   const id = props._id
+    const location = useLocation()
     const [, dragRef] = useDrag({
         type: "ingridient",
         item: {id},
@@ -113,7 +98,7 @@ const SectionItem = (props) =>
         })
     });
    return (
-        <div className={ingridientsStyle.item} onClick={props.onClick} ref={dragRef}>
+        <Link to={{pathname: INGRIDIENT_URL+props._id, state: {background: location}}} className={ingridientsStyle.item} onClick={props.onClick} ref={dragRef}>
             {props.count !== 0 && <div className={ingridientsStyle.count + ' text text_type_digits-default'}>{props.count}</div>}
             <img src={props.image_large} className={ingridientsStyle.item_image} alt='ingridient'/>
             <div className={ingridientsStyle.item_price + ' mt-1 mb-1'}>
@@ -121,7 +106,7 @@ const SectionItem = (props) =>
                 <CurrencyIcon type="primary" />
             </div>
             <p className={"text text_type_main-default " + ingridientsStyle.item_name}>{props.name}</p>
-        </div>
+        </Link>
     )
  }
 
