@@ -1,5 +1,6 @@
 import { baseUrl } from "../../utils/apiUrl"
 import checkResponse from "../../utils/checkResponse"
+import { getCookie } from "../../utils/getCookie"
 import { GET_ORDER_NUMBER_ERROR, GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS } from "./constant"
 
 export default function getOrderNumber(order: {ingredients: string[]}) {
@@ -9,7 +10,9 @@ export default function getOrderNumber(order: {ingredients: string[]}) {
         fetch(apiUrl, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
+                    'Accept': 'application/json, text/plain, */*',
+                    'Content-Type': 'application/json;charset=utf-8',
+                    'Authorization': `${getCookie('accessToken')}`
                 },
                 body: JSON.stringify(order)
             })
