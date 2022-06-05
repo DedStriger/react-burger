@@ -1,6 +1,7 @@
 import { baseUrl } from "../../utils/apiUrl";
 import checkResponse from "../../utils/checkResponse";
 import { PASS_REFRESH_ERROR, PASS_REFRESH_REQUEST, PASS_REFRESH_SUCCESS } from "./constant";
+import { AppThunk } from '../../index';
 
 type resetPassProps = {
     code: string;
@@ -9,7 +10,7 @@ type resetPassProps = {
 
 export default function resetPass(form: resetPassProps) {
     const apiUrl = baseUrl + '/password-reset/reset'
-    return async function(dispatch: any) {
+    return async function(dispatch: AppThunk) {
         dispatch({ type: PASS_REFRESH_REQUEST })
         await fetch(apiUrl, {
                 method: 'POST',

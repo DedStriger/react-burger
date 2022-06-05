@@ -25,7 +25,6 @@ useEffect(() => {
     return () => {document.removeEventListener('keydown', handleEsc)}
 }, [props])
 
-    console.log('modal')
     return createPortal(
         <ModalOverlay active onClick={props.onClose}>
             <div className={modalStyle.card} onClick={(e) => e.stopPropagation()}>

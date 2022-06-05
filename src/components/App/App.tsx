@@ -17,7 +17,7 @@ import Registration from '../../pages/Registration/Registration';
 import Reset from '../../pages/Reset/Reset';
 import Login from '../../pages/Login/Login';
 import { ingridientsType, modalType, userType, ingridientType } from '../../utils/types';
-import Lenta from '../../pages/Lenta/Lenta';
+import Feed from '../../pages/Feed/Feed';
 import FeedItem from '../FeedItem/FeedItem';
 import IngredientPage from '../../pages/IngridientPage';
 
@@ -63,7 +63,6 @@ function App() {
     return null
   }
 
-  console.log(!!orderBg === true, !!background === true)
   return (
     <div className="App">
       <AppHeader/>
@@ -96,7 +95,7 @@ function App() {
           <IngredientPage/>
         </Route>
         <Route exact path={LENTA_URL}>
-          <Lenta/>
+          <Feed/>
         </Route>
         <Route exact path={LENTA_URL+'/:number'}>
           <FeedItem/>

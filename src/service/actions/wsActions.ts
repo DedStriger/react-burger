@@ -37,3 +37,11 @@ import {
       payload: message
     };
   };
+
+  export const wsActionCreator = {
+    wsSendMessage,
+    wsGetMessage,
+    wsConnectionError,
+    wsConnectionClosed,
+    wsConnectionSuccess
+  }

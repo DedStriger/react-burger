@@ -42,7 +42,7 @@ export default function BurgerIngredients() {
                 <Tab value='main' onClick={handleTabCLick} active={state.current === 'main'}>Начинки</Tab>
             </div>
             <div className={ingridientsStyle.scroll_container} ref={ref}>
-                <Section title='Булки' id='bun' scrollEffect={function(e: Event){handleScroll('bun', e, this.querySelector('#bun'))}} container={ref}>
+                <Section title='Булки' id='bun' scrollEffect={function(e: Event){handleScroll('bun', e, this.querySelector('#bun') as HTMLDivElement)}} container={ref}>
                     {data.filter((item: ingridientType) => item.type === 'bun').map((item: ingridientType)  => (
                         <SectionItem 
                             key={item._id} 
@@ -51,7 +51,7 @@ export default function BurgerIngredients() {
                             onClick={() => handleIngridientClick(item)}/>
                     ))}
                 </Section>
-                <Section title='Соусы' id='sauce' scrollEffect={function(e: Event){handleScroll('sauce', e, this.querySelector('#sauce'))}} container={ref}>
+                <Section title='Соусы' id='sauce' scrollEffect={function(e: Event){handleScroll('sauce', e, this.querySelector('#sauce') as HTMLDivElement)}} container={ref}>
                     {data.filter((item: ingridientType)  => item.type === 'sauce').map((item: ingridientType)  => (
                         <SectionItem 
                             count={order.filter(itemOrder => itemOrder._id === item._id).length} 
@@ -60,7 +60,7 @@ export default function BurgerIngredients() {
                             onClick={() => handleIngridientClick(item)}/>
                     ))}
                 </Section>
-                <Section title='Начинка' id='main'  scrollEffect={function(e: Event){handleScroll('main', e, this.querySelector('#main'))}} container={ref}>
+                <Section title='Начинка' id='main'  scrollEffect={function(e: Event){handleScroll('main', e, this.querySelector('#main') as HTMLDivElement)}} container={ref}>
                     {data.filter((item: ingridientType)  => item.type === 'main').map((item: ingridientType)  => (
                         <SectionItem 
                             key={item._id} 
@@ -78,7 +78,7 @@ export type SectionType = PropsWithChildren<{
     id: string;
     title: string;
     container: React.RefObject<HTMLDivElement>;
-    scrollEffect: (this: any, e: Event) => void;
+    scrollEffect: (this: HTMLDivElement, e: Event) => void;
 }>
 
 const Section = (props : SectionType) => {

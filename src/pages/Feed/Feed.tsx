@@ -1,11 +1,11 @@
 import React, {useEffect, useRef} from 'react'
-import styles from './Lenta.module.css'
+import styles from './Feed.module.css'
 import { useDispatch, useSelector } from 'react-redux';
 import { storeType } from '../../utils/types';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../service/actions/constant';
 import OrdersItem from '../../components/OrderItem/OrdersItem';
 
-export default function Lenta(){
+export default function Feed(){
     const dispatch = useDispatch()
     const ws = useSelector((store: storeType) => store.ws)
     const ref = useRef<HTMLDivElement>(null)

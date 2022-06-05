@@ -3,6 +3,7 @@ import { baseUrl } from "../../utils/apiUrl";
 import checkResponse from "../../utils/checkResponse";
 import { getCookie } from "../../utils/getCookie";
 import { setCookie } from "../../utils/setCookie";
+import { AppThunk } from '../../index';
 
 type refreshUserProps =  {
     name: string;
@@ -12,7 +13,7 @@ type refreshUserProps =  {
 
 export default function refreshUser(user ?: refreshUserProps) {
     const apiUrl = baseUrl + '/auth/user'
-    return async function(dispatch : any) {
+    return async function(dispatch : AppThunk) {
         await fetch(apiUrl, {
                 method: 'PATCH',
                 mode: 'cors',

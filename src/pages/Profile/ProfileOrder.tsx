@@ -15,7 +15,7 @@ export default function ProfileOrder(){
 
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START, payload: `${authWsUrl}?token=${getCookie('authToken')?.replace('Bearer ', '')}`})
-        return () => {console.log('unmount'); dispatch({type: WS_CONNECTION_CLOSED})}
+        return () => {dispatch({type: WS_CONNECTION_CLOSED})}
     }, [dispatch])
 
     if(!ws.get){

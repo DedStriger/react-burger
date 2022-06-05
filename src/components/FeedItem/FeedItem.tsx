@@ -40,7 +40,7 @@ export default function FeedItem(){
             <div className={styles.orders}>
                 {
                     activeingredient.map(item => (
-                        <div className={styles.row + ' mb-6'}>
+                        <div key={item._id} className={styles.row + ' mb-6'}>
                             <div>
                                 <img src={item.image_mobile} className={`mr-4 ${styles.img}`} />
                                 <p className="text text_type_main-small">{item.name}</p>

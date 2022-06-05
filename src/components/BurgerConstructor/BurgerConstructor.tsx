@@ -84,7 +84,7 @@ export default function BurgerConstructor(props: BurgerConstructorProps){
                 </p>
                 {/* Почемуто у меня показывает что нет свойства children у табов и кнопок из библиотек. Наставник сказал пока сделать так, он не понимает в чем дело, я тоже : ( */}
                 {/*@ts-expect-error*/}
-                <Button type="primary" size="medium" onClick={() => store.user.auth ? dispatch(getOrderNumber(order)) : history.replace({pathname: LOGIN_URL})}>Оформить заказ</Button>
+                <Button disabled={store.order.orderNumberRequest} type="primary" size="medium" onClick={() => store.user.auth ? store.order.orderNumberRequest ? {} : dispatch(getOrderNumber(order)) : history.replace({pathname: LOGIN_URL})}> {store.order.orderNumberRequest ? 'Обработка заказа' : 'Оформить заказ'}</Button>
 
             </div>
             { store.order.orderShow &&
