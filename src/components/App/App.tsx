@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 
 import { FORGOT_URL, LOGIN_URL, MAIN_URL, ORDERS_URL, PROFILE_URL, REGISTRATION_URL, RESET_URL, INGRIDIENT_URL, LENTA_URL } from '../../utils/urls';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import checkUser from '../../service/actions/checkUSer';
-import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { DELETE_MODAL_INGRIDIENTS } from '../../service/actions/constant';
@@ -16,20 +15,20 @@ import Main from '../../pages/Main/Main';
 import Registration from '../../pages/Registration/Registration';
 import Reset from '../../pages/Reset/Reset';
 import Login from '../../pages/Login/Login';
-import { ingridientsType, modalType, userType, ingridientType } from '../../utils/types';
+import { ingridientType } from '../../utils/types';
 import Feed from '../../pages/Feed/Feed';
 import FeedItem from '../FeedItem/FeedItem';
 import IngredientPage from '../../pages/IngridientPage';
+import { useAppDispatch, useAppSelector } from '../../utils/uslessMove';
 
 function App() {
   const ModalSwitch = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [isLoad, setIsLoad] = useState(false)
   const location = useLocation<{background: any, orderBg: any}>()
   const history = useHistory()
-  const modal = useSelector((store : {modals: modalType}) => store.modals.activeModal)
-  const ingredients = useSelector((store : {ingridients: ingridientsType}) => store.ingridients.burgerIngridients)
-  const logout = useSelector((store: {user: userType}) => store.user.logoutSuccess)
+  const ingredients = useAppSelector(store => store.ingridients.burgerIngridients)
+  const logout = useAppSelector(store => store.user.logoutSuccess)
   let background = location.state && location.state.background;
   let orderBg = location.state && location.state.orderBg
   let modalItem : ingridientType | null = null
@@ -37,9 +36,7 @@ function App() {
   if(background && localStorage.getItem('id') !== null){
     let id = localStorage.getItem('id')
     modalItem = ingredients.filter((_: ingridientType) => _._id === id)[0]
-  } else {
-    modalItem = modal
-  }
+  } 
   const onClose = useCallback(() => {
     localStorage.removeItem('id')
     history.replace({pathname: MAIN_URL})

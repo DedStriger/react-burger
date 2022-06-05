@@ -3,14 +3,13 @@ import React, { useCallback, useState } from 'react'
 import { LOGIN_URL } from '../../utils/urls'
 import style from '../../styles/oneScreenForm.module.css'
 import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
 import resetPass from '../../service/actions/resetPass'
-import { refreshType } from '../../utils/types'
+import { useAppDispatch, useAppSelector } from '../../utils/uslessMove';
 
 export default function Reset(){
     const [value, setValue] = useState({code: '', pass: ''})
-    const refresh = useSelector((store: React.SyntheticEvent & {refresh: refreshType}) => store.refresh)
-    const dispatch = useDispatch()
+    const refresh = useAppSelector((store) => store.refresh)
+    const dispatch = useAppDispatch()
     const reset = useCallback((e: {preventDefault: () => void}) => {
         e.preventDefault()
         dispatch(resetPass(value))},[value, dispatch])

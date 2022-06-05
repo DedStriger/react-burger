@@ -3,21 +3,31 @@ import { useRouteMatch } from 'react-router-dom';
 import getOrderByNumber from '../../utils/getOrderByNumber';
 import { OrdersItemProps } from '../OrderItem/OrdersItem';
 import styles from './FeedItem.module.css'
-import { useSelector } from 'react-redux';
 import { storeType, ingridientType } from '../../utils/types';
 import sum from '../../utils/sum';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { useAppSelector } from '../../utils/uslessMove';
 
-export default function FeedItem(){
+export type FeedItemProps = {
+    modal?: boolean
+}
+
+export default function FeedItem({modal} : FeedItemProps){
     const number = useRouteMatch<{number: string}>()
     const [order, setOrder] = useState<OrdersItemProps>()
+    const ws = useAppSelector(store => store.ws.messages)
+    if(modal && ws){
+        setOrder(ws[0].orders.filter(item => item.number === Number(number))[0])
+    }
     useEffect(() => {
-        getOrderByNumber(number.params.number)
-        .then(data => {setOrder(data.orders[0])})
-        .catch(e => console.log(e))
+        if(!modal){
+            getOrderByNumber(number.params.number)
+            .then(data => {setOrder(data.orders[0])})
+            .catch(e => console.log(e))
+        } 
     }, [])
 
-    const ingredientsStore = useSelector((store: storeType) => store.ingridients)
+    const ingredientsStore = useAppSelector((store) => store.ingridients)
 
     let activeingredient = useMemo(() => {
         const arr: Array<ingridientType & {count: number}> = [] 

@@ -1,20 +1,20 @@
 import React, { useCallback, useEffect } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { useDispatch, useSelector } from 'react-redux'
 import { UPDATE_BUN, UPDATE_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import getIngridients from '../../service/actions/getIngridients'
 import mainStyles from './Main.module.css'
 import { v1 as uuidv1 } from 'uuid';
 import BurgerIngredients from '../../components/BurgerIngredients/BurgerIngredients'
 import BurgerConstructor from '../../components/BurgerConstructor/BurgerConstructor'
-import { ingridientsType, ingridientType } from '../../utils/types'
+import {ingridientType } from '../../utils/types'
+import { useAppDispatch, useAppSelector } from '../../utils/uslessMove';
 
 export default function Main(){
 
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
 
-    const {burgerIngridients} = useSelector((store : {ingridients: ingridientsType}) => store.ingridients)
+    const {burgerIngridients} = useAppSelector((store) => store.ingridients)
     useEffect(() => {
         dispatch(getIngridients())
     }, [dispatch])

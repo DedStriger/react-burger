@@ -1,12 +1,12 @@
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import React, {useCallback} from 'react'
-import { useSelector } from 'react-redux';
-import { storeType, ingridientType } from '../../utils/types';
+import React from 'react'
+import { ingridientType } from '../../utils/types';
 import styles from './OrderItems.module.css'
 import { useMemo } from 'react';
 import sum from '../../utils/sum';
-import { useHistory, useLocation, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { LENTA_URL } from '../../utils/urls';
+import { useAppSelector } from '../../utils/uslessMove';
 
 export type OrdersItemProps = {
     _id: number | string;
@@ -17,8 +17,8 @@ export type OrdersItemProps = {
     ingredients: string[];
 }
 
-export default function OrdersItem ({_id, status, createdAt, name, number, ingredients} : OrdersItemProps){
-    const ingredientsStore = useSelector((store: storeType) => store.ingridients)
+export default function OrdersItem ({status, createdAt, name, number, ingredients} : OrdersItemProps){
+    const ingredientsStore = useAppSelector((store) => store.ingridients)
 
     let activeingredient = useMemo(() => {
         const arr: Array<ingridientType & {count: number}> = [] 
@@ -32,17 +32,13 @@ export default function OrdersItem ({_id, status, createdAt, name, number, ingre
         return arr
     }, [ingredients])
 
-    const history = useHistory()
     const location = useLocation()
-    const goToPage = useCallback(() => {
-        history.replace({pathname: LENTA_URL+`/${number}`, state: {orderBg: location}})
-    }, [number])
 
     return(
         <Link className={styles.container} to={{pathname: LENTA_URL+`/${number}`, state: {orderBg: location}}}>
             <div className={styles.row + ' mb-6'}>
-                <p className='text text_type_digits-default'>#{number}</p>
-                <p className='text text_type_main-default text_color_inactive'>{new Date(createdAt).toUTCString()}</p>
+                <p className='text text_type_digits-default'>#{''+number}</p>
+                <p className='text text_type_main-default text_color_inactive'>{new Date(`${createdAt}`).toUTCString()}</p>
             </div>
             <p className="text text_type_main-medium mb-2">
                 {name}
@@ -54,14 +50,14 @@ export default function OrdersItem ({_id, status, createdAt, name, number, ingre
                 <div className={styles.imgContainer}>
                 {
                     activeingredient.map((item, index) => {
-                        if( item.count > 1){
+                        if( item.count && item.count > 1){
                             return (
                             <div key={index} className={styles.withNumber}>
                                  <img 
                                     src={item.image_mobile} 
                                     className={styles.img}
                                 />
-                                <span className='text text_type_main-small'>+{item.count}</span>
+                                <span className='text text_type_main-small'>+{item.count && item.count}</span>
                             </div>)
                         } else {
                             return (
@@ -79,7 +75,7 @@ export default function OrdersItem ({_id, status, createdAt, name, number, ingre
                 <div className={styles.innerContainer}>
                 <p className="text text_type_digits-default mr-2">
                     {
-                        activeingredient.reduce((acc, item) => acc += item.price, 0) 
+                        activeingredient.reduce((acc, item) => item.price ? acc += item.price : acc, 0) 
                     }    
                 </p><CurrencyIcon type="primary" />
                 </div>

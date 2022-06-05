@@ -3,12 +3,12 @@ import { baseUrl } from "../../utils/apiUrl";
 import checkResponse from "../../utils/checkResponse";
 import { RESET_URL } from "../../utils/urls";
 import { REFRESH_ERROR, REFRESH_REQUEST, REFRESH_SUCCESS } from "./constant";
-import { AppThunk } from '../../index';
+import { AppDispatch } from '../../index';
 
 
 export default function refresh(email: string, history : History<unknown>) {
     const apiUrl = baseUrl + '/password-reset'
-    return async function(dispatch: AppThunk) {
+    return async function(dispatch: AppDispatch) {
         dispatch({ type: REFRESH_REQUEST })
         await fetch(apiUrl, {
                 method: 'POST',

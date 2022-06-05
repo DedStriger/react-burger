@@ -4,7 +4,7 @@ import { setCookie } from "../../utils/setCookie";
 import { PROFILE_URL } from "../../utils/urls";
 import { SET_USER_ERROR, SET_USER_REQUEST, SET_USER_SUCCESS } from "./constant";
 import {History} from 'history'
-import { AppThunk } from '../../index';
+import { AppDispatch } from '../../index';
 
 type signInForm = {
     email: string;
@@ -13,7 +13,7 @@ type signInForm = {
 
 export default function signIn(form : signInForm, history: History<unknown>) {
     const apiUrl = baseUrl + '/auth/login'
-    return async function(dispatch: AppThunk) {
+    return async function(dispatch: AppDispatch) {
         dispatch({ type: SET_USER_REQUEST })
         await fetch(apiUrl, {
                 method: 'POST',

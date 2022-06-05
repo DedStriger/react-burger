@@ -1,14 +1,13 @@
 import { Button, Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import refreshUser from "../../service/actions/refreshUser";
-import { userType } from "../../utils/types";
 import style from './Profile.module.css'
 import ProfileContainer from "./ProfileContainer";
+import { useAppSelector, useAppDispatch } from '../../utils/uslessMove';
 
 export default function Profile(){
-    const user = useSelector((store: {user: userType}) => store.user)
-    const disaptch = useDispatch()
+    const user = useAppSelector((store) => store.user)
+    const disaptch = useAppDispatch()
     const [value, setValue] = useState({name: user.name || '', login: user.email || '', pass: user.pass || ''})
     return(
         <ProfileContainer>

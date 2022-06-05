@@ -1,18 +1,18 @@
 import React, {useEffect, useRef, useState } from 'react'
 import ingridientsStyle from './BurgerIngredients.module.css'
 import { CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import {useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
 import { Link, useLocation } from 'react-router-dom';
 import { INGRIDIENT_URL } from '../../utils/urls';
-import { storeType, ingridientType } from '../../utils/types';
+import { ingridientType } from '../../utils/types';
 import { PropsWithChildren } from 'react';
+import { useAppSelector } from '../../utils/uslessMove';
 
 export default function BurgerIngredients() {
 
-    const data = useSelector((store: storeType) => store.ingridients.burgerIngridients)
-    const order = useSelector((store: storeType) => store.con.constructorList)
-    const bun = useSelector((store: storeType) => store.con.bun)
+    const data = useAppSelector((store) => store.ingridients.burgerIngridients)
+    const order = useAppSelector((store) => store.con.constructorList)
+    const bun = useAppSelector((store) => store.con.bun)
     const [state, setState] = useState({showDetails: false,  current: 'bun'})
 
     const handleTabCLick = (value : string) => {

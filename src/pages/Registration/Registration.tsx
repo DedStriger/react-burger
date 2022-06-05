@@ -1,14 +1,14 @@
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import React, {useCallback, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import setUser from '../../service/actions/setUser'
 import style from '../../styles/oneScreenForm.module.css'
 import { LOGIN_URL } from '../../utils/urls'
+import { useAppDispatch } from '../../utils/uslessMove';
 
 export default function Registration(){
     const [value, setValue] = useState({email: '', pass: '', name: ''});
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const history = useHistory();
     const onRegistrationPress = useCallback((e: {preventDefault: () => void}) => {
         e.preventDefault()

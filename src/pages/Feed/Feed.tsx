@@ -1,13 +1,12 @@
 import React, {useEffect, useRef} from 'react'
 import styles from './Feed.module.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { storeType } from '../../utils/types';
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../service/actions/constant';
 import OrdersItem from '../../components/OrderItem/OrdersItem';
+import { useAppDispatch, useAppSelector } from '../../utils/uslessMove';
 
 export default function Feed(){
-    const dispatch = useDispatch()
-    const ws = useSelector((store: storeType) => store.ws)
+    const dispatch = useAppDispatch()
+    const ws = useAppSelector((store) => store.ws)
     const ref = useRef<HTMLDivElement>(null)
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START})
@@ -15,7 +14,7 @@ export default function Feed(){
         return () => {dispatch({type: WS_CONNECTION_CLOSED})}
     }, [dispatch])
     if(!ws.get){
-        return <div></div>
+        return <div/>
     }
     
     return(
@@ -27,7 +26,7 @@ export default function Feed(){
                 {ws.messages && ws.messages.length > 0 && ws.messages[0].orders.length > 0 && 
                 <div className={`mr-15 ${styles.scroll}`} style={{maxHeight: ref.current?.offsetHeight}}>
                     {
-                      ws.messages[ws.messages.length - 1].orders.map(item => <OrdersItem key={item._id} {...item}/>)
+                      ws.messages[ws.messages.length - 1].orders.map(item => <OrdersItem key={''+item._id} {...item}/>)
                     }
                 </div>}
                 <div ref={ref}>
@@ -38,7 +37,7 @@ export default function Feed(){
                             </p>
                             {
                                 ws.messages[ws.messages.length - 1].orders.filter(item => item.status === 'done').map(done => (
-                                    <p className="text text_type_digits-medium text_color_success mt-2" key={done._id + "3"}>{done.number}</p>
+                                    <p className="text text_type_digits-medium text_color_success mt-2" key={done._id + "3"}>{''+done.number}</p>
                                 ))
                             }
                         </div>
@@ -48,7 +47,7 @@ export default function Feed(){
                             </p>
                             {
                                 ws.messages[ws.messages.length - 1].orders.filter(item => item.status !== 'done').map(done => (
-                                    <p className="text text_type_digits-medium text_color_success mt-2" key={done._id + "2"}>{done.number}</p>
+                                    <p className="text text_type_digits-medium text_color_success mt-2" key={done._id + "2"}>{''+done.number}</p>
                                 ))
                             }
                         </div>
@@ -56,11 +55,11 @@ export default function Feed(){
                     <p className="text text_type_main-medium mb-4">
                         Выполнено за все время:
                     </p>
-                    <p className={`text text_type_digits-large mb-15 ${styles.glow}`}>{ws.messages[ws.messages.length - 1].total}</p>
+                    <p className={`text text_type_digits-large mb-15 ${styles.glow}`}>{''+ws.messages[ws.messages.length - 1].total}</p>
                     <p className="text text_type_main-medium mb-4">
                         Выполнено за сегодня:
                     </p>
-                    <p className={`text text_type_digits-large ${styles.glow}`}>{ws.messages[ws.messages.length - 1].totalToday}</p>
+                    <p className={`text text_type_digits-large ${styles.glow}`}>{''+ws.messages[ws.messages.length - 1].totalToday}</p>
                 </div>
             </div>
         </div>

@@ -1,17 +1,16 @@
 import React, {useEffect} from "react";
 import OrdersItem from "../../components/OrderItem/OrdersItem";
 import styles from './Profile.module.css'
-import { useDispatch, useSelector } from 'react-redux';
-import { storeType } from "../../utils/types";
 import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../service/actions/constant';
 import { getCookie } from '../../utils/getCookie';
 import { authWsUrl } from "../../utils/apiUrl";
+import { useAppSelector, useAppDispatch } from '../../utils/uslessMove';
 
 
 export default function ProfileOrder(){
 
-    const dispatch = useDispatch()
-    const ws = useSelector((store: storeType) => store.ws)
+    const dispatch = useAppDispatch()
+    const ws = useAppSelector((store) => store.ws)
 
     useEffect(() => {
         dispatch({type: WS_CONNECTION_START, payload: `${authWsUrl}?token=${getCookie('authToken')?.replace('Bearer ', '')}`})
