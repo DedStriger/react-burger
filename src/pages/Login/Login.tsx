@@ -3,12 +3,12 @@ import React, {FormEvent, useCallback, useState } from 'react'
 import { FORGOT_URL, REGISTRATION_URL } from '../../utils/urls'
 import style from '../../styles/oneScreenForm.module.css'
 import { Link, useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
 import signIn from '../../service/actions/signIn'
+import { useAppDispatch } from '../../utils/uslessMove';
 
 export default function Login(){
     const [value, setValue] = useState({email: '', pass: ''})
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const history = useHistory()
     const login = useCallback((e: FormEvent) => {
         e.preventDefault()

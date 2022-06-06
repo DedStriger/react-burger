@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import {IngredientPage, OrdersPage} from '../../pages'
+import {OrdersPage} from '../../pages'
 import { BrowserRouter as Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
-import { FORGOT_URL, LOGIN_URL, MAIN_URL, ORDERS_URL, PROFILE_URL, REGISTRATION_URL, RESET_URL, INGRIDIENT_URL } from '../../utils/urls';
+import { FORGOT_URL, LOGIN_URL, MAIN_URL, ORDERS_URL, PROFILE_URL, REGISTRATION_URL, RESET_URL, INGRIDIENT_URL, LENTA_URL } from '../../utils/urls';
 import { ProtectedRoute } from '../ProtectedRoute/ProtectedRoute';
 import checkUser from '../../service/actions/checkUSer';
-import { useDispatch, useSelector } from 'react-redux';
 import Modal from '../Modal/Modal';
 import IngredientDetails from '../IngredientDetails/IngredientDetails';
 import { DELETE_MODAL_INGRIDIENTS } from '../../service/actions/constant';
@@ -16,26 +15,28 @@ import Main from '../../pages/Main/Main';
 import Registration from '../../pages/Registration/Registration';
 import Reset from '../../pages/Reset/Reset';
 import Login from '../../pages/Login/Login';
-import { ingridientsType, modalType, userType, ingridientType } from '../../utils/types';
+import { ingridientType } from '../../utils/types';
+import Feed from '../../pages/Feed/Feed';
+import FeedItem from '../FeedItem/FeedItem';
+import IngredientPage from '../../pages/IngridientPage';
+import { useAppDispatch, useAppSelector } from '../../utils/uslessMove';
 
 function App() {
   const ModalSwitch = () => {
-  const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
   const [isLoad, setIsLoad] = useState(false)
-  const location = useLocation<{background: any}>()
+  const location = useLocation<{background: any, orderBg: any}>()
   const history = useHistory()
-  const modal = useSelector((store : {modals: modalType}) => store.modals.activeModal)
-  const ingredients = useSelector((store : {ingridients: ingridientsType}) => store.ingridients.burgerIngridients)
-  const logout = useSelector((store: {user: userType}) => store.user.logoutSuccess)
+  const ingredients = useAppSelector(store => store.ingridients.burgerIngridients)
+  const logout = useAppSelector(store => store.user.logoutSuccess)
   let background = location.state && location.state.background;
+  let orderBg = location.state && location.state.orderBg
   let modalItem : ingridientType | null = null
 
   if(background && localStorage.getItem('id') !== null){
     let id = localStorage.getItem('id')
     modalItem = ingredients.filter((_: ingridientType) => _._id === id)[0]
-  } else {
-    modalItem = modal
-  }
+  } 
   const onClose = useCallback(() => {
     localStorage.removeItem('id')
     history.replace({pathname: MAIN_URL})
@@ -46,6 +47,10 @@ function App() {
     setIsLoad(true)
   }
 
+  const orderModalClose = useCallback(() => {
+    history.goBack()
+  }, [])
+
   useEffect(() => {
     init()
     dispatch(getIngridients())
@@ -54,10 +59,11 @@ function App() {
   if(!isLoad){
     return null
   }
+
   return (
     <div className="App">
       <AppHeader/>
-      <Switch location={background || location}>
+      <Switch location={orderBg || background || location}>
         <Route path={MAIN_URL} exact>
           <Main/>
         </Route>
@@ -79,8 +85,17 @@ function App() {
         <ProtectedRoute path={ORDERS_URL} exact noAuthRoute={LOGIN_URL} kind='user'>
           <OrdersPage/>
         </ProtectedRoute>
+        <ProtectedRoute path={ORDERS_URL+'/:number'} exact noAuthRoute={LOGIN_URL} kind='user'>
+          <FeedItem/>
+        </ProtectedRoute>
         <Route exact path={INGRIDIENT_URL+":id"}>
           <IngredientPage/>
+        </Route>
+        <Route exact path={LENTA_URL}>
+          <Feed/>
+        </Route>
+        <Route exact path={LENTA_URL+'/:number'}>
+          <FeedItem/>
         </Route>
       </Switch>
       {background && modalItem !== null && ( 
@@ -93,6 +108,25 @@ function App() {
               </Modal>}
             
           />)}
+      {
+         !!orderBg &&(
+          <>
+            <Route
+              path={LENTA_URL+"/:number"}
+              children={
+              <Modal onClose={orderModalClose}>
+                <FeedItem/>
+              </Modal>
+              }
+            />
+            <ProtectedRoute path={ORDERS_URL+'/:number'} exact noAuthRoute={LOGIN_URL} kind='user'>
+                <Modal onClose={orderModalClose}>
+                  <FeedItem/>
+                </Modal>
+            </ProtectedRoute>
+            </>
+         )}
+        
     </div>
   );
   }

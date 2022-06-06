@@ -1,4 +1,4 @@
-import { Dispatch } from "redux";
+import { OrdersItemProps } from "../components/OrderItem/OrdersItem";
 
 export type ingridientType = {
     _id: string;
@@ -25,9 +25,23 @@ export type refreshType = {
 }
 
 export type ingridientsType = {
-    burgerIngridients: never[];
+    burgerIngridients: ingridientType[];
     burgerIngridientsRequest: boolean;
     burgerIngridientsError: boolean;
+}
+
+export type Message = {
+    success: boolean;
+    orders: OrdersItemProps[];
+    total: number;
+    totalToday: number;
+    timestamp: number;
+}
+
+export type wsType = {
+    wsConnected: boolean;
+    get: boolean;
+    messages: Message[];
 }
 
 export type userType = {
@@ -66,4 +80,5 @@ export type storeType = {
     ingridients: ingridientsType;
     refresh: refreshType;
     user: userType;
+    ws: wsType;
 }

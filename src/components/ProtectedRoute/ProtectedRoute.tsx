@@ -1,7 +1,6 @@
 import { Redirect, Route } from 'react-router-dom';
 import { useMemo, PropsWithChildren } from 'react';
-import { useSelector } from 'react-redux';
-import { storeType } from '../../utils/types';
+import { useAppSelector } from '../../utils/uslessMove';
 
 export type ProtectedRoute = PropsWithChildren<{
   noAuthRoute: string;
@@ -12,7 +11,7 @@ export type ProtectedRoute = PropsWithChildren<{
 
 export function ProtectedRoute({ children, noAuthRoute, kind, ...rest } : ProtectedRoute) {
 
-  const store = useSelector((store: storeType) => store)
+  const store = useAppSelector((store) => store)
 
   const check = useMemo(() => {
     if(kind === 'user'){

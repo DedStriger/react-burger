@@ -5,10 +5,11 @@ import { getCookie } from "../../utils/getCookie";
 import { LOGIN_URL } from "../../utils/urls";
 import { LOGOUT_USER_ERROR, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS } from "./constant";
 import {History} from 'history'
+import { AppDispatch } from '../../index';
 
 export default function signOut(history: History<unknown>) {
     const apiUrl = baseUrl + '/auth/logout'
-    return async function(dispatch : any) {
+    return async function(dispatch : AppDispatch) {
         dispatch({ type: LOGOUT_USER_REQUEST })
         await fetch(apiUrl, {
                 method: 'POST',

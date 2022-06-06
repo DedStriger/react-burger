@@ -1,7 +1,7 @@
 import { baseUrl } from "../../utils/apiUrl";
 import checkResponse from "../../utils/checkResponse"
 import { SET_USER_ERROR, SET_USER_REQUEST, SET_USER_SUCCESS } from "./constant";
-import { History } from "history";
+import { AppDispatch } from '../../index';
 
 type setUserUser = {
     email: string;
@@ -11,7 +11,7 @@ type setUserUser = {
 
 export default function setUser(user : setUserUser, history: () => void) {
     const apiUrl = `${baseUrl}/auth/register`
-    return async function(dispatch: any) {
+    return async function(dispatch: AppDispatch) {
         dispatch({ type: SET_USER_REQUEST })
         await fetch(apiUrl, {
                 method: 'POST',

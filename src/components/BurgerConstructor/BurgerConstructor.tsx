@@ -3,13 +3,13 @@ import React, {useMemo, useCallback, useRef, Dispatch} from 'react'
 import Modal from '../Modal/Modal'
 import OrderDetails from '../OrderDetails/OrderDetails'
 import constructorStyles from './BurgerConstructor.module.css'
-import { useDispatch, useSelector } from 'react-redux'
 import getOrderNumber from '../../service/actions/getOrderNumber'
 import { DELETE_CONSTRUCTOR_ELEMENT, HIDE_ORDER_MODAL, RELOAD_CONSTRUCTOR_LIST } from '../../service/actions/constant'
 import { useDrop, useDrag } from 'react-dnd'
-import { ingridientType, storeType } from '../../utils/types';
+import { ingridientType } from '../../utils/types';
 import { useHistory } from 'react-router-dom'
 import { LOGIN_URL } from '../../utils/urls'
+import { useAppDispatch, useAppSelector } from '../../utils/uslessMove';
 
 export type BurgerConstructorProps = {
   onDropHandler: (itemId : {id: string}) => void;
@@ -17,9 +17,9 @@ export type BurgerConstructorProps = {
 
 export default function BurgerConstructor(props: BurgerConstructorProps){
    
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch()
     const history = useHistory()
-    const store = useSelector((store: storeType) => store)
+    const store = useAppSelector(store => store)
     const bun = store.con.bun && store.con.bun
     const order = useMemo(() => {
         let orderList = { 
@@ -84,7 +84,7 @@ export default function BurgerConstructor(props: BurgerConstructorProps){
                 </p>
                 {/* Почемуто у меня показывает что нет свойства children у табов и кнопок из библиотек. Наставник сказал пока сделать так, он не понимает в чем дело, я тоже : ( */}
                 {/*@ts-expect-error*/}
-                <Button type="primary" size="medium" onClick={() => store.user.auth ? dispatch(getOrderNumber(order)) : history.replace({pathname: LOGIN_URL})}>Оформить заказ</Button>
+                <Button disabled={store.order.orderNumberRequest} type="primary" size="medium" onClick={() => store.user.auth ? dispatch(getOrderNumber(order)) : history.replace({pathname: LOGIN_URL})}> {store.order.orderNumberRequest ? 'Обработка заказа' : 'Оформить заказ'}</Button>
 
             </div>
             { store.order.orderShow &&

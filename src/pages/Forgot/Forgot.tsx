@@ -1,18 +1,17 @@
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, {FormEvent, useCallback, useState} from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import refresh from "../../service/actions/refresh";
 import style from '../../styles/oneScreenForm.module.css'
-import { refreshType } from "../../utils/types";
 import { LOGIN_URL } from "../../utils/urls";
+import { useAppSelector, useAppDispatch } from '../../utils/uslessMove';
 
 export default function Forgot(){
     const [email, setEmail] = useState('')
     const history = useHistory()
 
-    const refreshState = useSelector((store : {refresh: refreshType}) => store.refresh )
-    const dispatch = useDispatch()
+    const refreshState = useAppSelector((store) => store.refresh )
+    const dispatch = useAppDispatch()
     const reset = useCallback((e: FormEvent) => {
         e.preventDefault()
         dispatch(refresh(email, history))}, [dispatch, history, email])
