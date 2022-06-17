@@ -10,7 +10,7 @@ const initialState = {
 }
 
 type ActionType = {
-    type: string;
+    type: string; 
     check?: boolean;
 }
 

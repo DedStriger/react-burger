@@ -1,7 +1,7 @@
-import { GEt_BURGER_INGRIDIENTS_ERROR, GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, HIDE_ORDER_MODAL } from "../actions/constant"
+import { GET_ORDER_NUMBER_REQUEST, GET_ORDER_NUMBER_SUCCESS, HIDE_ORDER_MODAL, GET_ORDER_NUMBER_ERROR } from '../actions/constant';
 
 const initialState = {
-    orderNumber: null,
+    orderNumber: 0,
     orderNumberRequest: false,
     orderNumberError: false,
     orderShow: false
@@ -22,7 +22,7 @@ export const orderReducer = (state = initialState, action : ActionType) => {
                     orderNumberError: false
                 }
             }
-        case GEt_BURGER_INGRIDIENTS_ERROR:
+        case GET_ORDER_NUMBER_ERROR:
             {
                 return {
                     ...state,
@@ -47,7 +47,7 @@ export const orderReducer = (state = initialState, action : ActionType) => {
                 return {
                     ...state,
                     orderShow: false,
-                    orderNumber: null
+                    orderNumber: 0
                 }
             }
         default:

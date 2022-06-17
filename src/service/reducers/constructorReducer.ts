@@ -12,7 +12,7 @@ type ActionType = {
     index?: number;
     array?: ingridientType[];
     uuid?: string;
-    item: ingridientType;
+    item?: ingridientType;
 }
 
 export default function constructorReducer(state = initialState, action: ActionType) {
