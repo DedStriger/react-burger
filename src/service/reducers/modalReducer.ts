@@ -2,7 +2,7 @@ import { ingridientType } from "../../utils/types";
 import { DELETE_MODAL_INGRIDIENTS, GET_ON_MODAL_INGRIDIENTS } from "../actions/constant";
 
 const initialState = {
-    activeModal: null
+    activeModal: {}
 }
 
 type ActionType = {
@@ -21,7 +21,7 @@ export default function modalReducer(state = initialState, action: ActionType) {
         case DELETE_MODAL_INGRIDIENTS:
             {
                 return {
-                    activeModal: []
+                    activeModal: {}
                 }
             }
         default:
