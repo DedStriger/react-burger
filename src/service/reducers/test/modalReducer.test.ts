@@ -2,17 +2,17 @@ import { DELETE_MODAL_INGRIDIENTS, GET_ON_MODAL_INGRIDIENTS } from "../../action
 import modalReducer from "../modalReducer";
 import { testIngredient } from '../../../utils/testIngredient';
 
+const initialState = {
+    activeModal: {}
+}
+
 describe('modal reducer', () => {
     it('should initial modal reducer', () => {
-        expect(modalReducer(undefined, {type: ''})).toEqual(
-            {
-                activeModal: {}
-            }
-        )
+        expect(modalReducer(undefined, {type: ''})).toEqual(initialState)
     })
 
     it('shoud get modal ingredient', () => {
-        expect(modalReducer({activeModal: {}}, {type: GET_ON_MODAL_INGRIDIENTS, item: testIngredient})).toEqual(
+        expect(modalReducer(initialState, {type: GET_ON_MODAL_INGRIDIENTS, item: testIngredient})).toEqual(
             {
                 activeModal: testIngredient
             }
@@ -20,10 +20,6 @@ describe('modal reducer', () => {
     })
 
     it('should delete ingridient', () => {
-        expect(modalReducer({activeModal: testIngredient}, {type: DELETE_MODAL_INGRIDIENTS})).toEqual(
-            {
-                activeModal: {}
-            }
-        )
+        expect(modalReducer({activeModal: testIngredient}, {type: DELETE_MODAL_INGRIDIENTS})).toEqual(initialState)
     })
 })
